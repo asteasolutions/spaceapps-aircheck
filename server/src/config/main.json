@@ -1,0 +1,4 @@
+{
+  "sessionSecret": "b16eb25588f3bf5daa25d6f715001017",
+  "mongoDB": "mongodb://localhost:27017/aircheck"
+}
