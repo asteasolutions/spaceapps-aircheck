@@ -1,7 +1,7 @@
 import Relay from 'react-relay';
 import { connect } from 'react-redux';
 
-export default function createComponent(Component, { relayConfig, reduxConfig }) {
+export default function createComponent(Component, { relayConfig, reduxConfig } = {}) {
   let resultComponent = Component;
   if (reduxConfig) {
     const { mapStateToProps, mapDispatchToProps, mergeProps, options } = reduxConfig;

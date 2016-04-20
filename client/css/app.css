@@ -3,3 +3,8 @@
   line-height: 1.5;
   color: #FF0000;
 }
+
+.map {
+  width: 800px;
+  height: 600px;
+}

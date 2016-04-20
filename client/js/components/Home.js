@@ -3,6 +3,8 @@ import Relay from 'react-relay';
 import createComponent from '../utils/createComponent';
 import { loadCurrentLocation } from '../actions/HomeActions';
 import ReportedSymptomsList from './ReportedSymptomsList';
+import WorldMap from './WorldMap';
+import LayersList from './LayersList';
 import AddReportedSymptomMutation from '../data/mutations/AddReportedSymptomMutation';
 
 class Home extends Component {
@@ -52,6 +54,8 @@ class Home extends Component {
           }
           <br />
         <button className='btn btn-success' onClick={this._onAddSymptom}>Report symptom</button>
+        <WorldMap />
+        <LayersList />
       </main>
     );
   }
