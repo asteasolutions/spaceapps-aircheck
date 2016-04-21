@@ -3,6 +3,7 @@ import {
   GraphQLList,
   GraphQLFloat,
   GraphQLNonNull,
+  GraphQLInt,
 } from 'graphql';
 import GraphQLDateType from 'graphql-custom-datetype';
 import ReportedSymptomType from './type';
@@ -17,6 +18,8 @@ export default {
       name: { type: new GraphQLNonNull(GraphQLString) },
       date: { type: GraphQLDateType },
       coords: { type: new GraphQLList(GraphQLFloat) },
+      grade: { type: GraphQLInt },
+      category: { type: GraphQLString },
     },
     outputFields: {
       reportedSymptom: {
@@ -37,6 +40,8 @@ export default {
           type: 'Point',
           coordinates: input.coords,
         },
+        grade: input.grade,
+        category: input.category,
       });
 
       reportedSymptom.save((err, res) => (err ? reject(err) : resolve(res)));

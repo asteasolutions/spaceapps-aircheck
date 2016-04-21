@@ -13,6 +13,12 @@ const ReportedSymptomSchema = new mongoose.Schema({
     type: { type: String },
     coordinates: [Number],
   },
+  grade: {
+    type: Number,
+  },
+  category: {
+    type: String,
+  },
 });
 
 export default mongoose.model('ReportedSymptom', ReportedSymptomSchema);

@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import createComponent from '../utils/createComponent';
 
 const ReportedSymptomsList = (props) => {
-  const fields = ['name', 'date', 'coords'];
+  const fields = ['name', 'date', 'coords', 'grade', 'category'];
   const reportedSymptoms = props.reportedSymptoms.map((symptom) => (
     <tr key={symptom.id}>
       { fields.map((field) => (<td key={field}>{symptom[field]}</td>)) }
@@ -35,6 +35,8 @@ export default createComponent(ReportedSymptomsList, {
           name
           date
           coords
+          grade
+          category
         }
       `,
     },

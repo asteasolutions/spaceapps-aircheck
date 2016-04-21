@@ -3,6 +3,7 @@ import {
   GraphQLList,
   GraphQLString,
   GraphQLFloat,
+  GraphQLInt,
 } from 'graphql';
 import { globalIdField } from 'graphql-relay';
 import GraphQLDateType from 'graphql-custom-datetype';
@@ -25,6 +26,8 @@ export default new GraphQLObjectType({
       type: new GraphQLList(GraphQLFloat),
       resolve: (obj) => obj.location.coordinates,
     },
+    grade: { type: GraphQLInt },
+    category: { type: GraphQLString },
   }),
   isTypeOf: (obj) => obj instanceof ReportedSymptom,
 

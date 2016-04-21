@@ -17,6 +17,8 @@ class Home extends Component {
       name: this.refs.name.value,
       lon: this.refs.lon.valueAsNumber,
       lat: this.refs.lat.valueAsNumber,
+      category: this.refs.category.value,
+      grade: this.refs.grade.valueAsNumber,
     };
 
     const areAllVluesSet = Object.keys(props).reduce((prev, key) => prev && !!props[key], true);
@@ -37,6 +39,8 @@ class Home extends Component {
         <h1>Reported symptoms</h1>
         <ReportedSymptomsList reportedSymptoms={reportedSymptoms} />
         Name: <input type='text' ref='name' /><br />
+        Category: <input type='text' ref='category' /><br />
+        Grade: <input type='number' min='1' max='3' ref='grade' /><br />
         Coordinates:
           <input type='number' step='0.01' value={lon || ''} placeholder='longitude' ref='lon' />
           <input type='number' step='0.01' value={lat || ''} placeholder='latitude' ref='lat' />
@@ -47,7 +51,7 @@ class Home extends Component {
             : null
           }
           <br />
-        <button onClick={this._onAddSymptom}>Report symptom</button>
+        <button className='btn btn-success' onClick={this._onAddSymptom}>Report symptom</button>
       </main>
     );
   }
