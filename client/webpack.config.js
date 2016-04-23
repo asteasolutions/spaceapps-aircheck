@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const devFlagPlugin = new webpack.DefinePlugin({
   __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false')),
@@ -26,12 +25,12 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     devFlagPlugin,
-    new ExtractTextPlugin('app.css'),
   ],
   module: {
     loaders: [
       { test: /\.js$/, loaders: ['babel'], exclude: /node_modules/ },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract(`style!css?paths=${cssFolderPath}`) },
+      { test: /\.css$/, loader: `style!css?paths=${cssFolderPath}` },
+      { test: /assets[\/\\].*$/, loader: 'file', query: 'name=assets/[name].[hash:11].[ext]' },
     ],
   },
   resolve: {

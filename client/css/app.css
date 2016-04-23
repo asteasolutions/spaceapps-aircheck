@@ -4,7 +4,27 @@
   color: #FF0000;
 }
 
-.map {
-  width: 800px;
-  height: 600px;
+#left-header {
+  background: #91c648;
+  height: 50px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  margin-bottom: 15px;
+}
+
+#left-header p {
+  font-size: 32px;
+  color: white;
+}
+
+label > .radio-inline { /* HIDE RADIO */
+  visibility: hidden; /* Makes input not-clickable */
+  position: absolute; /* Remove input from document flow */
+}
+
+label > label + img{ /* IMAGE STYLES */
+  cursor:pointer;
+  border:2px solid transparent;
+  width: 48px;
+  height: 48px;
 }

@@ -20,6 +20,12 @@ export default function (state = defaultState, action) {
       }
       return { ...state, activeLayers: layers };
     }
+
+    case ActionTypes.CHANGE_DATE: {
+      const { filterDate } = action;
+      return { ...state, filterDate };
+    }
+
     default:
       return state;
   }

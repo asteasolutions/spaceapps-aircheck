@@ -11,7 +11,7 @@ const ReportedSymptomsList = (props) => {
   ));
 
   return (
-    <table>
+    <table className='col-md-12'>
       <tbody>
         <tr>
           { fields.map((field) => (<th key={field}>{field}</th>)) }

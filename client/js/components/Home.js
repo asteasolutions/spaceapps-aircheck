@@ -1,37 +1,29 @@
+import '../../css/app.css'
 import React, { Component } from 'react';
 import Relay from 'react-relay';
+import DateTimeField from 'react-bootstrap-datetimepicker';
 import createComponent from '../utils/createComponent';
 import { loadCurrentLocation } from '../actions/HomeActions';
+import { changeDate } from '../actions/LayersActions';
 import ReportedSymptomsList from './ReportedSymptomsList';
+import SymptomForm from './SymptomForm';
 import WorldMap from './WorldMap';
 import LayersList from './LayersList';
-import AddReportedSymptomMutation from '../data/mutations/AddReportedSymptomMutation';
+import { PanelGroup, Panel } from 'react-bootstrap';
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this._onGetCurrentCoords = this._onGetCurrentCoordsClick.bind(this);
-    this._onAddSymptom = this._onAddSymptomClick.bind(this);
     this._onToggleSymptoms = this._onToggleSymptomsClick.bind(this);
 
     this.state = {
-      areSymptomsVisible: false
+      areSymptomsVisible: false,
+      filterDate: {
+        format: 'YYYY-MM-DD',
+        value: '2015-03-03'
+      }
     };
-  }
-
-  _onAddSymptomClick() {
-    const props = {
-      name: this.refs.name.value,
-      lon: this.refs.lon.valueAsNumber,
-      lat: this.refs.lat.valueAsNumber,
-      category: this.refs.category.value,
-      grade: this.refs.grade.valueAsNumber,
-    };
-
-    const areAllVluesSet = Object.keys(props).reduce((prev, key) => prev && !!props[key], true);
-    if (areAllVluesSet) {
-      Relay.Store.commitUpdate(new AddReportedSymptomMutation(props));
-    }
   }
 
   _onGetCurrentCoordsClick() {
@@ -40,38 +32,49 @@ class Home extends Component {
 
   _onToggleSymptomsClick() {
     this.setState({
-      areSymptomsVisible: !this.state.areSymptomsVisible
+      areSymptomsVisible: !this.state.areSymptomsVisible,
     });
+  }
+
+  onChangeDateFilter(value) {
+    this.props.dispatch(changeDate(value));
   }
 
   render() {
     const { reportedSymptoms } = this.props.viewer;
-    const { lon, lat, isLoading, error } = this.props;
     const { areSymptomsVisible } = this.state;
 
     return (
-      <main>
-        <h1>Reported symptoms</h1>
-        <ReportedSymptomsList reportedSymptoms={reportedSymptoms} />
-        Name: <input type='text' ref='name' /><br />
-        Category: <input type='text' ref='category' /><br />
-        Grade: <input type='number' min='1' max='3' ref='grade' /><br />
-        Coordinates:
-          <input type='number' step='0.01' value={lon || ''} placeholder='longitude' ref='lon' />
-          <input type='number' step='0.01' value={lat || ''} placeholder='latitude' ref='lat' />
-          <button onClick={this._onGetCurrentCoords}>Load current coordinates</button>
-          {
-            isLoading ? <span>Loading...</span>
-            : error ? <span>{error}</span>
-            : null
-          }
-          <br />
-        <button className='btn btn-success' onClick={this._onAddSymptom}>Report symptom</button>
-        <button className='btn btn-success' onClick={this._onToggleSymptoms}>
-          {areSymptomsVisible ? 'Hide' : 'Show'} Symptoms
-        </button>
-        <WorldMap reportedSymptoms={reportedSymptoms} areSymptomsVisible={this.state.areSymptomsVisible} />
-        <LayersList />
+      <main className='container-fluid'>
+        <div className='row'>
+          <div id='left-panel' className='col-md-3'>
+            <div id='left-header' className='text-center'><p>Aircheck</p></div>
+            <PanelGroup defaultActiveKey='1' accordion>
+              <Panel header='Report a Symptom' eventKey='1'>
+                <SymptomForm />
+              </Panel>
+              <Panel header='Select Data Layers' eventKey='2'>
+                <LayersList />
+                <button className='btn btn-success' onClick={this._onToggleSymptoms}>
+                  {areSymptomsVisible ? 'Hide' : 'Show'} Symptoms
+                </button>
+                <DateTimeField
+                  dateTime={this.state.filterDate.value}
+                  onChange={this.onChangeDateFilter.bind(this)}
+                  format={this.state.filterDate.format}>
+                </DateTimeField>
+              </Panel>
+            </PanelGroup>
+          </div>
+          <WorldMap reportedSymptoms={reportedSymptoms}
+            filterDate={this.state.filterDate.value}
+            areSymptomsVisible={this.state.areSymptomsVisible}
+          />
+        </div>
+        <div className='row'>
+          <h4>Reported symptoms</h4>
+          <ReportedSymptomsList reportedSymptoms={reportedSymptoms} />
+        </div>
       </main>
     );
   }

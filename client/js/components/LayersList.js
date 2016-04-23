@@ -23,12 +23,11 @@ class LayersList extends Component {
 
     return (
       <div>
-        <h1>Layers</h1>
         <ul>
           {
             this.props.availableLayers.map(layer =>
               <li key={ layer.key } >
-                <label>
+                <label className='checkbox'>
                   <input
                     type='checkbox'
                     checked={ layersStatus[layer.key] }
@@ -47,6 +46,6 @@ class LayersList extends Component {
 
 export default createComponent(LayersList, {
   reduxConfig: {
-    mapStateToProps: state => state.Layers,
+    mapStateToProps: state => state.WorldMap.Layers,
   },
 });
