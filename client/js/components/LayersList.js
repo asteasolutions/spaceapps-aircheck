@@ -47,6 +47,6 @@ class LayersList extends Component {
 
 export default createComponent(LayersList, {
   reduxConfig: {
-    mapStateToProps: state => state.Layers,
+    mapStateToProps: state => state.WorldMap.Layers,
   },
 });

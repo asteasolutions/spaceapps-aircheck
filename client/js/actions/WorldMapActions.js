@@ -1,10 +1,16 @@
 import {
-  TOGGLE_LAYER,
+  CENTER_MAP,
+  MOVE_MAP,
 } from '../constants/ActionTypes';
 
-export function toggleLayer(name) {
+export function centerMap() {
   return {
-    type: TOGGLE_LAYER,
-    name,
+    type: CENTER_MAP,
+  };
+}
+
+export function moveMap() {
+  return {
+    type: MOVE_MAP,
   };
 }

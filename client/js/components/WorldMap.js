@@ -2,10 +2,19 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import createComponent from '../utils/createComponent';
 import { loadCurrentLocation } from '../actions/HomeActions';
+import { centerMap, moveMap } from '../actions/WorldMapActions';
 
 class WorldMap extends Component {
+  constructor(props) {
+    super(props);
+    this._centerMap = this._centerMapClick.bind(this);
+  }
+
   componentDidMount() {
+    this.props.dispatch(loadCurrentLocation());
+
     this._initMap();
+    this._centerMap();
   }
 
   updateSymptomLayer(symptoms, areSymptomsVisible) {
@@ -22,11 +31,40 @@ class WorldMap extends Component {
   }
 
   componentWillReceiveProps(props) {
+    this._updateLayers(props.WorldMap.Layers);
+    this._updateCurrentLocation(props);
+  }
+
+  _initMap() {
+    this._map = new google.maps.Map(document.getElementById('map'), {
+      center: {
+        lat: 0,
+        lng: 0,
+      },
+      zoom: 2,
+      minZoom: 1,
+    });
+
+    // set symptom layer
+    this.symptomLayer = new google.maps.visualization.HeatmapLayer({});
+    this.symptomLayer.setMap(this._map);
+
+    const onMapViewChanged = () => {
+      if (this.props.WorldMap.Location.isMapCentered) {
+        this.props.dispatch(moveMap());
+      }
+    };
+
+    this._map.addListener('drag', onMapViewChanged);
+    this._map.addListener('zoom_changed', onMapViewChanged);
+  }
+
+  _updateLayers(props) {
+    // this.updateSymptomLayer(props.reportedSymptoms, props.areSymptomsVisible);
+
     const overlayMapTypes = this._map.overlayMapTypes;
     const layers = this._map.overlayMapTypes.getArray();
     const indicesToRemove = [];
-
-    this.updateSymptomLayer(props.reportedSymptoms, props.areSymptomsVisible);
 
     _.each(layers, (layer, index) => {
       if (!_.find(props.activeLayers, { key: layer.name })) {
@@ -40,27 +78,25 @@ class WorldMap extends Component {
         overlayMapTypes.push(layer.getLayer());
       }
     });
-
-    return;
   }
 
-  _initMap() {
-    this.props.dispatch(loadCurrentLocation());
+  _updateCurrentLocation(props) {
+    const isLocationLoaded = _.isNumber(props.Location.lon) &&
+      _.isNumber(props.Location.lat);
+    const isMapCentered = props.WorldMap.Location.isMapCentered;
 
-    this._map = new google.maps.Map(document.getElementById('map'), {
-      center: {
-        lat: 42.6489298,
-        lng: 23.3955345,
-      },
-      zoom: 6,
-      minZoom: 1,
-      zoom: 20,
-      // maxZoom: ,
-    });
+    if (isMapCentered && isLocationLoaded) {
+      const location = {
+        lng: props.Location.lon,
+        lat: props.Location.lat,
+      };
+      this._map.setCenter(location);
+      this._map.setZoom(6);
+    }
+  }
 
-    // set symptom layer
-    this.symptomLayer = new google.maps.visualization.HeatmapLayer({});
-    this.symptomLayer.setMap(this._map);
+  _centerMapClick() {
+    this.props.dispatch(centerMap());
   }
 
   render() {
@@ -72,6 +108,7 @@ class WorldMap extends Component {
     return (
       <div className='col-md-8' style={{ paddingRight: 0 + 'px', paddingLeft: 0 + 'px' }}>
         <div id='map' className='map' style={ style }></div>
+        <button className='btn' onClick={ this._centerMap } > Center map </button>
       </div>
     );
   }
@@ -79,6 +116,6 @@ class WorldMap extends Component {
 
 export default createComponent(WorldMap, {
   reduxConfig: {
-    mapStateToProps: state => state.Layers,
+    mapStateToProps: state => state,
   },
 });
