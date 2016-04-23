@@ -10,9 +10,22 @@ function getLayerOptions(options) {
   };
 }
 
+function checkTileParams(tile, zoom) {
+  const maxCoord = Math.pow(2, zoom);
+  return zoom >= 0 && tile.x >= 0 && tile.y >= 0 && tile.x < maxCoord && tile.y < maxCoord;
+}
+
 function getTileUrl(key) {
-  return (tile, zoom) => `//map1.vis.earthdata.nasa.gov/wmts-webmerc/
+  return (tile, zoom) => {
+    let result;
+    if (checkTileParams(tile, zoom)) {
+      result = `//map1.vis.earthdata.nasa.gov/wmts-webmerc/
 ${key}/default/2015-03-03/GoogleMapsCompatible_Level6/${zoom}/${tile.y}/${tile.x}.png`;
+    } else {
+      result = null;
+    }
+    return result;
+  };
 }
 
 function getLayer(key) {

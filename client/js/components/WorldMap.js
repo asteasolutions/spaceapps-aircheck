@@ -5,17 +5,10 @@ import { loadCurrentLocation } from '../actions/HomeActions';
 
 class WorldMap extends Component {
   componentDidMount() {
-    google.load('maps', '3', {
-      key: 'AIzaSyB-XeiqyA_N5WqXQWcuM1PzQUvBEB_n3QQ',
-      callback: this._initMap.bind(this),
-    });
+    this._initMap();
   }
 
   componentWillReceiveProps(props) {
-    if (!this._map) {
-      return;
-    }
-
     const overlayMapTypes = this._map.overlayMapTypes;
     const layers = this._map.overlayMapTypes.getArray();
     const indicesToRemove = [];
@@ -45,6 +38,7 @@ class WorldMap extends Component {
         lng: 23.322,
       },
       zoom: 6,
+      minZoom: 1,
       maxZoom: 6,
     });
   }
