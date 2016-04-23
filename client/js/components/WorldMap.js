@@ -61,11 +61,15 @@ class WorldMap extends Component {
   }
 
   _initMarker() {
+    const mapCenter = this._map.getCenter();
     this._marker = new google.maps.Marker({
       map: this._map,
-      position: this._map.getCenter(),
+      position: mapCenter,
       draggable: true,
     });
+
+    const markerLoc = { lat: mapCenter.lat(), lng: mapCenter.lng() };
+    this.props.dispatch(moveMarker(markerLoc));
 
     this._marker.addListener('drag', (event) => {
       const location = { lat: event.latLng.lat(), lng: event.latLng.lng() };
@@ -105,6 +109,7 @@ class WorldMap extends Component {
         lat: props.Location.lat,
       };
       this._marker.setPosition(location);
+      this.props.dispatch(moveMarker(location));
       this._map.setCenter(location);
       this._map.setZoom(13);
     }
