@@ -6,6 +6,7 @@ import ReportedSymptomsList from './ReportedSymptomsList';
 import SymptomForm from './SymptomForm';
 import WorldMap from './WorldMap';
 import LayersList from './LayersList';
+import { PanelGroup, Panel } from 'react-bootstrap';
 
 class Home extends Component {
   constructor(props) {
@@ -36,11 +37,17 @@ class Home extends Component {
       <main className='container-fluid'>
         <div className='row'>
           <div id='left-panel' className='col-md-4'>
-            <SymptomForm />
-            <LayersList />
-            <button className='btn btn-success' onClick={this._onToggleSymptoms}>
-              {areSymptomsVisible ? 'Hide' : 'Show'} Symptoms
-            </button>
+            <PanelGroup defaultActiveKey='1' accordion>
+              <Panel header='Report a Symptom' eventKey='1'>
+                <SymptomForm />
+              </Panel>
+              <Panel header='Select Data Layers' eventKey='2'>
+                <LayersList />
+                <button className='btn btn-success' onClick={this._onToggleSymptoms}>
+                  {areSymptomsVisible ? 'Hide' : 'Show'} Symptoms
+                </button>
+              </Panel>
+            </PanelGroup>
           </div>
           <WorldMap reportedSymptoms={reportedSymptoms}
             areSymptomsVisible={this.state.areSymptomsVisible}
