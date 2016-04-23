@@ -1,10 +1,22 @@
 import {
+  GraphQLInputObjectType,
+  GraphQLString,
   GraphQLList,
   GraphQLID,
+  GraphQLFloat,
 } from 'graphql';
 import { fromGlobalId } from 'graphql-relay';
 import ReportedSymptomType from './type';
 import ReportedSymptom from '../../models/reported_symptom';
+
+const ReportedSymptomsFilterType = new GraphQLInputObjectType({
+  name: 'ReportedSymptomsFilter',
+  fields: () => ({
+    name: { type: GraphQLString },
+    category: { type: GraphQLString },
+    containment: { type: new GraphQLList(new GraphQLList(GraphQLFloat)) },
+  }),
+});
 
 export default {
   reportedSymptom: {
@@ -19,8 +31,9 @@ export default {
   },
   reportedSymptoms: {
     type: new GraphQLList(ReportedSymptomType),
-    resolve: () => new Promise((resolve, reject) => {
-      ReportedSymptom.find({}, (err, res) => (err ? reject(err) : resolve(res)));
-    }),
+    args: {
+      filter: { type: ReportedSymptomsFilterType },
+    },
+    resolve: (root, { filter }) => ReportedSymptom.filter(filter),
   },
 };
