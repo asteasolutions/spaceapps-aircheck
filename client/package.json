@@ -25,6 +25,7 @@
     "react-router-relay": "^0.11.0",
     "redux": "^3.0.4",
     "redux-thunk": "^2.0.1",
+    "simple-statistics": "^2.0.0-beta1",
     "whatwg-fetch": "^0.11.0"
   },
   "devDependencies": {
@@ -35,7 +36,7 @@
     "babel-preset-react": "^6.3.13",
     "babel-preset-react-hmre": "^1.0.0",
     "babel-preset-stage-0": "^6.3.13",
-    "babel-relay-plugin-loader": "^0.7.3",
+    "babel-relay-plugin-loader": "^0.8.0",
     "cross-env": "^1.0.6",
     "css-loader": "^0.23.1",
     "eslint": "^2.7.0",
