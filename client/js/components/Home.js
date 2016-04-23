@@ -1,3 +1,4 @@
+import '../../css/app.css'
 import React, { Component } from 'react';
 import Relay from 'react-relay';
 import DateTimeField from 'react-bootstrap-datetimepicker';
@@ -8,6 +9,7 @@ import ReportedSymptomsList from './ReportedSymptomsList';
 import SymptomForm from './SymptomForm';
 import WorldMap from './WorldMap';
 import LayersList from './LayersList';
+import { PanelGroup, Panel } from 'react-bootstrap';
 
 class Home extends Component {
   constructor(props) {
@@ -45,17 +47,24 @@ class Home extends Component {
     return (
       <main className='container-fluid'>
         <div className='row'>
-          <div id='left-panel' className='col-md-4'>
-            <SymptomForm />
-            <LayersList />
-            <button className='btn btn-success' onClick={this._onToggleSymptoms}>
-              {areSymptomsVisible ? 'Hide' : 'Show'} Symptoms
-            </button>
-            <DateTimeField
-              dateTime={this.state.filterDate.value}
-              onChange={this.onChangeDateFilter.bind(this)}
-              format={this.state.filterDate.format}>
-            </DateTimeField>
+          <div id='left-panel' className='col-md-3'>
+            <div id='left-header' className='text-center'><p>Aircheck</p></div>
+            <PanelGroup defaultActiveKey='1' accordion>
+              <Panel header='Report a Symptom' eventKey='1'>
+                <SymptomForm />
+              </Panel>
+              <Panel header='Select Data Layers' eventKey='2'>
+                <LayersList />
+                <button className='btn btn-success' onClick={this._onToggleSymptoms}>
+                  {areSymptomsVisible ? 'Hide' : 'Show'} Symptoms
+                </button>
+                <DateTimeField
+                  dateTime={this.state.filterDate.value}
+                  onChange={this.onChangeDateFilter.bind(this)}
+                  format={this.state.filterDate.format}>
+                </DateTimeField>
+              </Panel>
+            </PanelGroup>
           </div>
           <WorldMap reportedSymptoms={reportedSymptoms}
             filterDate={this.state.filterDate.value}

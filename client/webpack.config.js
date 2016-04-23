@@ -26,12 +26,11 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     devFlagPlugin,
-    new ExtractTextPlugin('app.css'),
   ],
   module: {
     loaders: [
       { test: /\.js$/, loaders: ['babel'], exclude: /node_modules/ },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract(`style!css?paths=${cssFolderPath}`) },
+      { test: /\.css$/, loader: `style!css?paths=${cssFolderPath}` },
     ],
   },
   resolve: {

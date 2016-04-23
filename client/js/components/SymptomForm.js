@@ -60,12 +60,10 @@ class SymptomForm extends Component {
     const availableTypes = symptoms.types.get(category);
 
     return (
-      <form >
-        <br />
+      <form>
         <FormGroup
           controlId='category'
         >
-          <ControlLabel> Category </ControlLabel>
           {
             symptoms.categories.map((cat, index) => {
               const active = index === this.state.category;
@@ -82,7 +80,7 @@ class SymptomForm extends Component {
         <FormGroup
           controlId='name'
         >
-          <DropdownButton title='Type' id='symptom-type' onSelect={ this._typeSelected } >
+          <DropdownButton title='Select symptom' id='symptom-type' onSelect={ this._typeSelected } >
               {
                 availableTypes.map((type, index) => {
                   const active = index === this.state.type;
@@ -96,7 +94,7 @@ class SymptomForm extends Component {
         </FormGroup>
 
         <FormGroup controlId='grade'>
-          <ControlLabel> Grade </ControlLabel>
+          <ControlLabel> Select intensity </ControlLabel>
           <FormControl type='number' min='1' max='3' step='1' onChange={ this._gradeChanged } />
         </FormGroup>
 
@@ -110,8 +108,7 @@ class SymptomForm extends Component {
           <FormControl type='text' value={ this.props.longitude } />
         </FormGroup>
 
-        <Button type='button' onClick={ this._onSubmit }> Submit </Button>
-
+        <Button type='button' className='btn-success' onClick={ this._onSubmit }> Report </Button>
       </form>
     );
   }

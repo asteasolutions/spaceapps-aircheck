@@ -23,7 +23,6 @@ class LayersList extends Component {
 
     return (
       <div>
-        <h4>Select NASA Layer</h4>
         <ul>
           {
             this.props.availableLayers.map(layer =>
