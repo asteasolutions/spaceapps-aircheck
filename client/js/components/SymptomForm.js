@@ -4,6 +4,7 @@ import { FormGroup, Radio, ControlLabel, FormControl, DropdownButton, MenuItem, 
     from 'react-bootstrap';
 
 import createComponent from '../utils/createComponent';
+import symptoms from '../utils/symptoms';
 import AddReportedSymptomMutation from '../data/mutations/AddReportedSymptomMutation';
 
 
@@ -16,13 +17,6 @@ class SymptomForm extends Component {
     this._categoySelected = this._categoySelected.bind(this);
     this._gradeChanged = this._gradeChanged.bind(this);
 
-    this._categories = ['nose', 'eyes', 'breathing'];
-    this._types = new Map([
-      ['nose', ['sneezing', 'running nose', 'obstructed nose']],
-      ['eyes', ['itchy eyes', 'ref eyes']],
-      ['breathing', ['cough', 'wheezing', 'shortness of breath']],
-    ]);
-
     this.state = this.state || {
       category: 0,
       type: 0,
@@ -30,14 +24,14 @@ class SymptomForm extends Component {
   }
 
   _onSubmit() {
-    const category = this._categories[this.state.category];
-    const name = this._types.get(category)[this.state.type];
+    const category = symptoms.categories[this.state.category];
+    const name = symptoms.types.get(category)[this.state.type];
     const props = {
       category,
       name,
       lon: 180, // .refs.lon.valueAsNumber,
       lat: 23, // this.refs.lat.valueAsNumber,
-      grade: grade.valueAsNumber // this.state.grade,
+      grade: grade.valueAsNumber, // this.state.grade,
     };
 
     const areAllVluesSet = Object.keys(props).reduce((prev, key) => prev && !!props[key], true);
@@ -59,8 +53,8 @@ class SymptomForm extends Component {
   }
 
   render() {
-    const category = this._categories[this.state.category];
-    const availableTypes = this._types.get(category);
+    const category = symptoms.categories[this.state.category];
+    const availableTypes = symptoms.types.get(category);
 
     return (
       <form >
@@ -70,7 +64,7 @@ class SymptomForm extends Component {
         >
           <ControlLabel> Category </ControlLabel>
           {
-            this._categories.map((cat, index) => {
+            symptoms.categories.map((cat, index) => {
               const active = index === this.state.category;
               const changed = this._categoySelected.bind(this, index);
               return (
