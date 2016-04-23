@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import createComponent from '../utils/createComponent';
 import { loadCurrentLocation } from '../actions/HomeActions';
-import { centerMap, moveMap } from '../actions/WorldMapActions';
+import { centerMap, moveMap, moveMarker } from '../actions/WorldMapActions';
 
 class WorldMap extends Component {
   constructor(props) {
@@ -14,6 +14,7 @@ class WorldMap extends Component {
     this.props.dispatch(loadCurrentLocation());
 
     this._initMap();
+    this._initMarker();
     this._centerMap();
   }
 
@@ -59,6 +60,19 @@ class WorldMap extends Component {
     this._map.addListener('zoom_changed', onMapViewChanged);
   }
 
+  _initMarker() {
+    this._marker = new google.maps.Marker({
+      map: this._map,
+      position: this._map.getCenter(),
+      draggable: true,
+    });
+
+    this._marker.addListener('drag', (event) => {
+      const location = { lat: event.latLng.lat(), lng: event.latLng.lng() };
+      this.props.dispatch(moveMarker(location));
+    });
+  }
+
   _updateLayers(props) {
     // this.updateSymptomLayer(props.reportedSymptoms, props.areSymptomsVisible);
 
@@ -90,8 +104,9 @@ class WorldMap extends Component {
         lng: props.Location.lon,
         lat: props.Location.lat,
       };
+      this._marker.setPosition(location);
       this._map.setCenter(location);
-      this._map.setZoom(6);
+      this._map.setZoom(13);
     }
   }
 
