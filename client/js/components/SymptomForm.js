@@ -1,0 +1,113 @@
+import React, { Component } from 'react';
+import Relay from 'react-relay';
+import { FormGroup, Radio, ControlLabel, FormControl, DropdownButton, MenuItem, Button }
+    from 'react-bootstrap';
+
+import createComponent from '../utils/createComponent';
+import AddReportedSymptomMutation from '../data/mutations/AddReportedSymptomMutation';
+
+
+class SymptomForm extends Component {
+  constructor() {
+    super();
+
+    this._onSubmit = this._onSubmit.bind(this);
+    this._typeSelected = this._typeSelected.bind(this);
+    this._categoySelected = this._categoySelected.bind(this);
+    this._gradeChanged = this._gradeChanged.bind(this);
+
+    this._categories = ['nose', 'eyes', 'breathing'];
+    this._types = new Map([
+      ['nose', ['sneezing', 'running nose', 'obstructed nose']],
+      ['eyes', ['itchy eyes', 'ref eyes']],
+      ['breathing', ['cough', 'wheezing', 'shortness of breath']],
+    ]);
+
+    this.state = this.state || {
+      category: 0,
+      type: 0,
+    };
+  }
+
+  _onSubmit() {
+    const category = this._categories[this.state.category];
+    const name = this._types.get(category)[this.state.type];
+    const props = {
+      category,
+      name,
+      lon: 180, // .refs.lon.valueAsNumber,
+      lat: 23, // this.refs.lat.valueAsNumber,
+      grade: grade.valueAsNumber // this.state.grade,
+    };
+
+    const areAllVluesSet = Object.keys(props).reduce((prev, key) => prev && !!props[key], true);
+    if (areAllVluesSet) {
+      Relay.Store.commitUpdate(new AddReportedSymptomMutation(props));
+    }
+  }
+
+  _typeSelected(eventKey) {
+    this.setState({ type: eventKey });
+  }
+
+  _categoySelected(index) {
+    this.setState({ category: index });
+  }
+
+  _gradeChanged(value) {
+    this.setState({ grade: value.valueAsNumber });
+  }
+
+  render() {
+    const category = this._categories[this.state.category];
+    const availableTypes = this._types.get(category);
+
+    return (
+      <form >
+        <br />
+        <FormGroup
+          controlId='category'
+        >
+          <ControlLabel> Category </ControlLabel>
+          {
+            this._categories.map((cat, index) => {
+              const active = index === this.state.category;
+              const changed = this._categoySelected.bind(this, index);
+              return (
+                <Radio inline checked={ active } key={ cat } onChange={ changed }>
+                  {cat}
+                </Radio>
+              );
+            })
+          }
+        </FormGroup>
+
+        <FormGroup
+          controlId='name'
+        >
+          <DropdownButton title='Type' onSelect={ this._typeSelected } >
+              {
+                availableTypes.map((type, index) => {
+                  const active = index === this.state.type;
+                  return (
+                    <MenuItem eventKey={index} active={ active } key={ type }>
+                      {type}
+                    </MenuItem>);
+                })
+              }
+          </DropdownButton>
+        </FormGroup>
+
+        <FormGroup controlId='grade'>
+          <ControlLabel> Grade </ControlLabel>
+          <FormControl type='number' min='1' max='3' step='1' onChange={ this._gradeChanged } />
+        </FormGroup>
+
+        <Button type='button' onClick={ this._onSubmit }> Submit </Button>
+
+      </form>
+    );
+  }
+}
+
+export default createComponent(SymptomForm, {});

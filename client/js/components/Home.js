@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 import createComponent from '../utils/createComponent';
 import { loadCurrentLocation } from '../actions/HomeActions';
 import ReportedSymptomsList from './ReportedSymptomsList';
+import SymptomForm from './SymptomForm';
 import AddReportedSymptomMutation from '../data/mutations/AddReportedSymptomMutation';
 
 class Home extends Component {
@@ -33,12 +34,13 @@ class Home extends Component {
 
   render() {
     const { reportedSymptoms } = this.props.viewer;
-    const { lon, lat, isLoading, error } = this.props;
+   // const { lon, lat, isLoading, error } = this.props;
     return (
       <main>
         <h1>Reported symptoms</h1>
         <ReportedSymptomsList reportedSymptoms={reportedSymptoms} />
-        Name: <input type='text' ref='name' /><br />
+        <br />
+  {/*      Name: <input type='text' ref='name' /><br />
         Category: <input type='text' ref='category' /><br />
         Grade: <input type='number' min='1' max='3' ref='grade' /><br />
         Coordinates:
@@ -51,7 +53,10 @@ class Home extends Component {
             : null
           }
           <br />
-        <button className='btn btn-success' onClick={this._onAddSymptom}>Report symptom</button>
+        <button className='btn btn-success' onClick={this._onAddSymptom}>Report symptom</button> */}
+        <div style={ { width: '50%' } } >
+          <SymptomForm />
+        </div>
       </main>
     );
   }
