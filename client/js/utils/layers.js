@@ -15,12 +15,13 @@ function checkTileParams(tile, zoom) {
   return zoom >= 0 && tile.x >= 0 && tile.y >= 0 && tile.x < maxCoord && tile.y < maxCoord;
 }
 
-function getTileUrl(key) {
+function getTileUrl(key, date = '2015-03-03') {
+  debugger;
   return (tile, zoom) => {
     let result;
     if (checkTileParams(tile, zoom)) {
       result = `//map1.vis.earthdata.nasa.gov/wmts-webmerc/
-${key}/default/2015-03-03/GoogleMapsCompatible_Level6/${zoom}/${tile.y}/${tile.x}.png`;
+${key}/default/${date}/GoogleMapsCompatible_Level6/${zoom}/${tile.y}/${tile.x}.png`;
     } else {
       result = null;
     }
@@ -28,9 +29,10 @@ ${key}/default/2015-03-03/GoogleMapsCompatible_Level6/${zoom}/${tile.y}/${tile.x
   };
 }
 
-function getLayer(key) {
+function getLayer(key, filterDate) {
+  debugger;
   const options = getLayerOptions({
-    getTileUrl: getTileUrl(key),
+    getTileUrl: getTileUrl(key, filterDate),
     alt: key,
     name: key,
   });
@@ -50,7 +52,11 @@ const Layers = [
 ].map(key => ({
   key,
   name: key.split('_').slice(1).join(' '),
-  getLayer: _.partial(getLayer, key),
+  // getLayer: _.partial(getLayer, key),
+  getLayer: date => {
+    debugger;
+    return getLayer(key, date);
+  },
 }));
 
 export default Layers;
