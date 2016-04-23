@@ -16,3 +16,15 @@
   font-size: 32px;
   color: white;
 }
+
+label > .radio-inline { /* HIDE RADIO */
+  visibility: hidden; /* Makes input not-clickable */
+  position: absolute; /* Remove input from document flow */
+}
+
+label > label + img{ /* IMAGE STYLES */
+  cursor:pointer;
+  border:2px solid transparent;
+  width: 48px;
+  height: 48px;
+}

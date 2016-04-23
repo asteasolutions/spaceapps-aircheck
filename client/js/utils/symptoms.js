@@ -1,8 +1,8 @@
 export default {
-  categories: ['Nose', 'Eyes', 'Breathing'],
+  categories: ['nose', 'eyes', 'breathing'],
   types: new Map([
-    ['Nose', ['Sneezing', 'Runny nose', 'Obstructed nose']],
-    ['Eyes', ['Red eyes', 'Itchy eyes']],
-    ['Breathing', ['Cough', 'Wheezing', 'Shortness of breath']],
+    ['nose', ['Sneezing', 'Runny nose', 'Obstructed nose']],
+    ['eyes', ['Red eyes', 'Itchy eyes']],
+    ['breathing', ['Cough', 'Wheezing', 'Shortness of breath']],
   ]),
 };

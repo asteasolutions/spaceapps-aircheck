@@ -1,3 +1,4 @@
+import '../../css/app.css';
 import React, { Component } from 'react';
 import Relay from 'react-relay';
 import { FormGroup, Radio, ControlLabel, FormControl, DropdownButton, MenuItem, Button }
@@ -6,7 +7,6 @@ import { FormGroup, Radio, ControlLabel, FormControl, DropdownButton, MenuItem, 
 import createComponent from '../utils/createComponent';
 import symptoms from '../utils/symptoms';
 import AddReportedSymptomMutation from '../data/mutations/AddReportedSymptomMutation';
-
 
 class SymptomForm extends Component {
   constructor() {
@@ -69,9 +69,12 @@ class SymptomForm extends Component {
               const active = index === this.state.category;
               const changed = this._categoySelected.bind(this, index);
               return (
-                <Radio inline checked={ active } key={ cat } onChange={ changed }>
+                <label>
+                <Radio inline checked={ active } key={ cat } onChange={ changed } >
                   {cat}
                 </Radio>
+                <img src={require('../../assets/' + cat + '_transparent.svg')} ></img>
+                </label>
               );
             })
           }
