@@ -29,8 +29,8 @@ class SymptomForm extends Component {
     const props = {
       category,
       name,
-      lon: 180, // .refs.lon.valueAsNumber,
-      lat: 23, // this.refs.lat.valueAsNumber,
+      lon: this.props.longitude,
+      lat: this.props.latitude,
       grade: grade.valueAsNumber, // this.state.grade,
     };
 
@@ -80,7 +80,7 @@ class SymptomForm extends Component {
         <FormGroup
           controlId='name'
         >
-          <DropdownButton title='Select symptom' onSelect={ this._typeSelected } >
+          <DropdownButton title='Select symptom' id='symptom-type' onSelect={ this._typeSelected } >
               {
                 availableTypes.map((type, index) => {
                   const active = index === this.state.type;
@@ -98,11 +98,30 @@ class SymptomForm extends Component {
           <FormControl type='number' min='1' max='3' step='1' onChange={ this._gradeChanged } />
         </FormGroup>
 
-        <Button type='button' className='btn-success' onClick={ this._onSubmit }> Report </Button>
+        <FormGroup controllId='locationLat'>
+          <ControlLabel> Latitude </ControlLabel>
+          <FormControl type='number' value={ this.props.latitude } />
+        </FormGroup>
 
+        <FormGroup controllId='locationLon'>
+          <ControlLabel> Longitude </ControlLabel>
+          <FormControl type='number' value={ this.props.longitude } />
+        </FormGroup>
+
+        <Button type='button' className='btn-success' onClick={ this._onSubmit }> Report </Button>
       </form>
     );
   }
 }
 
-export default createComponent(SymptomForm, {});
+export default createComponent(SymptomForm, {
+  reduxConfig: {
+    mapStateToProps: (state) => {
+      const loc = state.WorldMap.Location.dropPin;
+      return {
+        latitude: loc && loc.lat,
+        longitude: loc && loc.lng,
+      };
+    },
+  },
+});

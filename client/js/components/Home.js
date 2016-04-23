@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Relay from 'react-relay';
+import DateTimeField from 'react-bootstrap-datetimepicker';
 import createComponent from '../utils/createComponent';
 import { loadCurrentLocation } from '../actions/HomeActions';
+import { changeDate } from '../actions/LayersActions';
 import ReportedSymptomsList from './ReportedSymptomsList';
 import SymptomForm from './SymptomForm';
 import WorldMap from './WorldMap';
@@ -16,6 +18,10 @@ class Home extends Component {
 
     this.state = {
       areSymptomsVisible: false,
+      filterDate: {
+        format: 'YYYY-MM-DD',
+        value: '2015-03-03'
+      }
     };
   }
 
@@ -27,6 +33,10 @@ class Home extends Component {
     this.setState({
       areSymptomsVisible: !this.state.areSymptomsVisible,
     });
+  }
+
+  onChangeDateFilter(value) {
+    this.props.dispatch(changeDate(value));
   }
 
   render() {
@@ -46,10 +56,16 @@ class Home extends Component {
                 <button className='btn btn-success' onClick={this._onToggleSymptoms}>
                   {areSymptomsVisible ? 'Hide' : 'Show'} Symptoms
                 </button>
+                <DateTimeField
+                  dateTime={this.state.filterDate.value}
+                  onChange={this.onChangeDateFilter.bind(this)}
+                  format={this.state.filterDate.format}>
+                </DateTimeField>
               </Panel>
             </PanelGroup>
           </div>
           <WorldMap reportedSymptoms={reportedSymptoms}
+            filterDate={this.state.filterDate.value}
             areSymptomsVisible={this.state.areSymptomsVisible}
           />
         </div>

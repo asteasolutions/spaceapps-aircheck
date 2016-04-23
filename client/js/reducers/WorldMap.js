@@ -9,9 +9,16 @@ const defaultState = {
 function Location(state = defaultState, action) {
   switch (action.type) {
     case ActionTypes.CENTER_MAP:
-      return { isMapCentered: true };
+      return { ...state, isMapCentered: true };
     case ActionTypes.MOVE_MAP:
-      return { isMapCentered: false };
+      return { ...state, isMapCentered: false };
+    case ActionTypes.MOVE_MARKER:
+      return {
+        ...state,
+        dropPin: {
+          ...action.location,
+        },
+      };
     default:
       return state;
   }
