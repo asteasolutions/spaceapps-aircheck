@@ -18,20 +18,8 @@ class WorldMap extends Component {
     this._centerMap();
   }
 
-  updateSymptomLayer(symptoms, areSymptomsVisible) {
-    const data = symptoms.map(symptom => {
-      const [lng, lat] = symptom.coords;
-      return {
-        location: new google.maps.LatLng(lat, lng),
-        weight: symptom.grade
-      };
-    });
-
-    this.symptomLayer.setData(data);
-    this.symptomLayer.setMap(areSymptomsVisible ? this._map : null);
-  }
-
   componentWillReceiveProps(props) {
+    this.updateSymptoms(props.reportedSymptoms, props.areSymptomsVisible);
     this._updateLayers(props.WorldMap.Layers);
     this._updateCurrentLocation(props);
   }
@@ -74,11 +62,12 @@ class WorldMap extends Component {
   }
 
   _updateLayers(props) {
-    // this.updateSymptomLayer(props.reportedSymptoms, props.areSymptomsVisible);
-
     const overlayMapTypes = this._map.overlayMapTypes;
     const layers = this._map.overlayMapTypes.getArray();
     const indicesToRemove = [];
+    if (props.filterDate !== this.props.filterDate) {
+      overlayMapTypes.clear();
+    }
 
     _.each(layers, (layer, index) => {
       if (!_.find(props.activeLayers, { key: layer.name })) {
@@ -89,7 +78,7 @@ class WorldMap extends Component {
 
     _.each(props.activeLayers, layer => {
       if (!_.find(layers, { name: layer.key })) {
-        overlayMapTypes.push(layer.getLayer());
+        overlayMapTypes.push(layer.getLayer(props.filterDate));
       }
     });
   }
@@ -108,6 +97,19 @@ class WorldMap extends Component {
       this._map.setCenter(location);
       this._map.setZoom(13);
     }
+  }
+
+  updateSymptoms(symptoms, areSymptomsVisible) {
+    const data = symptoms.map(symptom => {
+      const [lng, lat] = symptom.coords;
+      return {
+        location: new google.maps.LatLng(lat, lng),
+        weight: symptom.grade,
+      };
+    });
+
+    this.symptomLayer.setData(data);
+    this.symptomLayer.setMap(areSymptomsVisible ? this._map : null);
   }
 
   _centerMapClick() {
