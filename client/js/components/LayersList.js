@@ -23,12 +23,12 @@ class LayersList extends Component {
 
     return (
       <div>
-        <h1>Layers</h1>
+        <h4>Select NASA Layer</h4>
         <ul>
           {
             this.props.availableLayers.map(layer =>
               <li key={ layer.key } >
-                <label>
+                <label className='checkbox'>
                   <input
                     type='checkbox'
                     checked={ layersStatus[layer.key] }

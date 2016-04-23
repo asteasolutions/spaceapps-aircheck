@@ -33,18 +33,23 @@ class Home extends Component {
     const { areSymptomsVisible } = this.state;
 
     return (
-      <main>
-        <h1>Reported symptoms</h1>
-        <ReportedSymptomsList reportedSymptoms={reportedSymptoms} />
-        <br />
-        <div style={ { width: '50%' } } >
-          <SymptomForm />
+      <main className='container-fluid'>
+        <div className='row'>
+          <div id='left-panel' className='col-md-4'>
+            <SymptomForm />
+            <LayersList />
+            <button className='btn btn-success' onClick={this._onToggleSymptoms}>
+              {areSymptomsVisible ? 'Hide' : 'Show'} Symptoms
+            </button>
+          </div>
+          <WorldMap reportedSymptoms={reportedSymptoms}
+            areSymptomsVisible={this.state.areSymptomsVisible}
+          />
         </div>
-        <button className='btn btn-success' onClick={this._onToggleSymptoms}>
-          {areSymptomsVisible ? 'Hide' : 'Show'} Symptoms
-        </button>
-        <WorldMap reportedSymptoms={reportedSymptoms} areSymptomsVisible={this.state.areSymptomsVisible} />
-        <LayersList />
+        <div className='row'>
+          <h4>Reported symptoms</h4>
+          <ReportedSymptomsList reportedSymptoms={reportedSymptoms} />
+        </div>
       </main>
     );
   }

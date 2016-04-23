@@ -65,12 +65,12 @@ class WorldMap extends Component {
 
   render() {
     const style = {
-      width: '600px',
-      height: '400px',
+      width: '100%',
+      height: '100vh',
       border: 'blue',
     };
     return (
-      <div>
+      <div className='col-md-8' style={{ paddingRight: 0 + 'px', paddingLeft: 0 + 'px' }}>
         <div id='map' className='map' style={ style }></div>
       </div>
     );
