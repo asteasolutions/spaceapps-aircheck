@@ -8,10 +8,25 @@ class WorldMap extends Component {
     this._initMap();
   }
 
+  updateSymptomLayer(symptoms, areSymptomsVisible) {
+    const data = symptoms.map(symptom => {
+      const [lng, lat] = symptom.coords;
+      return {
+        location: new google.maps.LatLng(lat, lng),
+        weight: symptom.grade
+      };
+    });
+
+    this.symptomLayer.setData(data);
+    this.symptomLayer.setMap(areSymptomsVisible ? this._map : null);
+  }
+
   componentWillReceiveProps(props) {
     const overlayMapTypes = this._map.overlayMapTypes;
     const layers = this._map.overlayMapTypes.getArray();
     const indicesToRemove = [];
+
+    this.updateSymptomLayer(props.reportedSymptoms, props.areSymptomsVisible);
 
     _.each(layers, (layer, index) => {
       if (!_.find(props.activeLayers, { key: layer.name })) {
@@ -34,13 +49,18 @@ class WorldMap extends Component {
 
     this._map = new google.maps.Map(document.getElementById('map'), {
       center: {
-        lat: 42.672,
-        lng: 23.322,
+        lat: 42.6489298,
+        lng: 23.3955345,
       },
       zoom: 6,
       minZoom: 1,
-      maxZoom: 6,
+      zoom: 20,
+      // maxZoom: ,
     });
+
+    // set symptom layer
+    this.symptomLayer = new google.maps.visualization.HeatmapLayer({});
+    this.symptomLayer.setMap(this._map);
   }
 
   render() {

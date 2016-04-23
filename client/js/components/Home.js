@@ -12,6 +12,11 @@ class Home extends Component {
     super(props);
     this._onGetCurrentCoords = this._onGetCurrentCoordsClick.bind(this);
     this._onAddSymptom = this._onAddSymptomClick.bind(this);
+    this._onToggleSymptoms = this._onToggleSymptomsClick.bind(this);
+
+    this.state = {
+      areSymptomsVisible: false
+    };
   }
 
   _onAddSymptomClick() {
@@ -33,9 +38,17 @@ class Home extends Component {
     this.props.dispatch(loadCurrentLocation());
   }
 
+  _onToggleSymptomsClick() {
+    this.setState({
+      areSymptomsVisible: !this.state.areSymptomsVisible
+    });
+  }
+
   render() {
     const { reportedSymptoms } = this.props.viewer;
     const { lon, lat, isLoading, error } = this.props;
+    const { areSymptomsVisible } = this.state;
+
     return (
       <main>
         <h1>Reported symptoms</h1>
@@ -54,7 +67,10 @@ class Home extends Component {
           }
           <br />
         <button className='btn btn-success' onClick={this._onAddSymptom}>Report symptom</button>
-        <WorldMap />
+        <button className='btn btn-success' onClick={this._onToggleSymptoms}>
+          {areSymptomsVisible ? 'Hide' : 'Show'} Symptoms
+        </button>
+        <WorldMap reportedSymptoms={reportedSymptoms} areSymptomsVisible={this.state.areSymptomsVisible} />
         <LayersList />
       </main>
     );
@@ -67,6 +83,12 @@ export default createComponent(Home, {
       viewer: () => Relay.QL`
         fragment on Viewer {
           reportedSymptoms {
+            id
+            name
+            date
+            coords
+            grade
+            category
             ${ReportedSymptomsList.getFragment('reportedSymptoms')}
           }
         }
