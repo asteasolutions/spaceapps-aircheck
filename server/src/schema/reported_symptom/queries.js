@@ -34,6 +34,6 @@ export default {
     args: {
       filter: { type: ReportedSymptomsFilterType },
     },
-    resolve: (root, { filter }) => ReportedSymptom.filter(filter),
+    resolve: (root, { filter }) => ReportedSymptom.filter(filter || {}),
   },
 };
