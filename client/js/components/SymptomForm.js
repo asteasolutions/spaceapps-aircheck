@@ -45,7 +45,10 @@ class SymptomForm extends Component {
   }
 
   _categoySelected(index) {
-    this.setState({ category: index });
+    this.setState({
+      category: index,
+      type: 0,
+    });
   }
 
   _gradeChanged(value) {
