@@ -1,3 +1,4 @@
+import '../../css/app.css'
 import React, { Component } from 'react';
 import Relay from 'react-relay';
 import DateTimeField from 'react-bootstrap-datetimepicker';
@@ -46,7 +47,8 @@ class Home extends Component {
     return (
       <main className='container-fluid'>
         <div className='row'>
-          <div id='left-panel' className='col-md-4'>
+          <div id='left-panel' className='col-md-3'>
+            <div id='left-header' className='text-center'><p>Aircheck</p></div>
             <PanelGroup defaultActiveKey='1' accordion>
               <Panel header='Report a Symptom' eventKey='1'>
                 <SymptomForm />
