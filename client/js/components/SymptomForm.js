@@ -103,12 +103,12 @@ class SymptomForm extends Component {
 
         <FormGroup controllId='locationLat'>
           <ControlLabel> Latitude </ControlLabel>
-          <FormControl type='number' value={ this.props.latitude } />
+          <FormControl type='text' value={ this.props.latitude } />
         </FormGroup>
 
         <FormGroup controllId='locationLon'>
           <ControlLabel> Longitude </ControlLabel>
-          <FormControl type='number' value={ this.props.longitude } />
+          <FormControl type='text' value={ this.props.longitude } />
         </FormGroup>
 
         <Button type='button' className='btn-success' onClick={ this._onSubmit }> Report </Button>
@@ -122,8 +122,8 @@ export default createComponent(SymptomForm, {
     mapStateToProps: (state) => {
       const loc = state.WorldMap.Location.dropPin;
       return {
-        latitude: loc && loc.lat,
-        longitude: loc && loc.lng,
+        latitude: loc && loc.lat || 0,
+        longitude: loc && loc.lng || 0,
       };
     },
   },
