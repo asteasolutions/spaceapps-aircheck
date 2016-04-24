@@ -16,7 +16,7 @@ const RootQuery = new GraphQLObjectType({
     // top level. At some point we may also use it to identify the currently logged in user.
     viewer: {
       type: new GraphQLNonNull(ViewerType),
-      resolve: () => ({}),
+      resolve: () => ({ type: 'viewer' }),
     },
   }),
 });
