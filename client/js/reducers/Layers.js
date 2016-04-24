@@ -5,6 +5,7 @@ import Layers from '../utils/layers';
 const defaultState = {
   availableLayers: Layers,
   activeLayers: [],
+  areSymptomsVisible: false,
 };
 
 export default function (state = defaultState, action) {
@@ -19,6 +20,13 @@ export default function (state = defaultState, action) {
         layers.push(layer);
       }
       return { ...state, activeLayers: layers };
+    }
+
+    case ActionTypes.TOGGLE_SYMPTOMS_LAYER: {
+      return {
+        ...state,
+        areSymptomsVisible: !state.areSymptomsVisible,
+      };
     }
 
     case ActionTypes.CHANGE_DATE: {

@@ -9,16 +9,15 @@ import ReportedSymptomsList from './ReportedSymptomsList';
 import SymptomForm from './SymptomForm';
 import WorldMap from './WorldMap';
 import LayersList from './LayersList';
-import { PanelGroup, Panel } from 'react-bootstrap';
+import { PanelGroup, Panel, ButtonGroup, Button, Input } from 'react-bootstrap';
+
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this._onGetCurrentCoords = this._onGetCurrentCoordsClick.bind(this);
-    this._onToggleSymptoms = this._onToggleSymptomsClick.bind(this);
 
     this.state = {
-      areSymptomsVisible: false,
       filterDate: {
         format: 'YYYY-MM-DD',
         value: '2015-03-03',
@@ -32,12 +31,6 @@ class Home extends Component {
 
   _onGetCurrentCoordsClick() {
     this.props.dispatch(loadCurrentLocation());
-  }
-
-  _onToggleSymptomsClick() {
-    this.setState({
-      areSymptomsVisible: !this.state.areSymptomsVisible,
-    });
   }
 
   render() {
@@ -55,9 +48,6 @@ class Home extends Component {
               </Panel>
               <Panel header='Select Data Layers' eventKey='2'>
                 <LayersList />
-                <button className='btn btn-success' onClick={this._onToggleSymptoms}>
-                  {areSymptomsVisible ? 'Hide' : 'Show'} Symptoms
-                </button>
                 <DateTimeField
                   dateTime={this.state.filterDate.value}
                   onChange={this.onChangeDateFilter.bind(this)}
@@ -68,7 +58,7 @@ class Home extends Component {
           </div>
           <WorldMap reportedSymptoms={reportedSymptoms}
             filterDate={this.state.filterDate.value}
-            areSymptomsVisible={this.state.areSymptomsVisible}
+            areSymptomsVisible={this.props.areSymptomsVisible}
           />
         </div>
         <div className='row'>

@@ -19,7 +19,8 @@ class WorldMap extends Component {
   }
 
   componentWillReceiveProps(props) {
-    this.updateSymptoms(props.reportedSymptoms, props.areSymptomsVisible);
+    const { areSymptomsVisible } = props.WorldMap.Layers;
+    this.updateSymptoms(props.reportedSymptoms, areSymptomsVisible);
     this._updateLayers(props.WorldMap.Layers);
     this._updateCurrentLocation(props);
   }
