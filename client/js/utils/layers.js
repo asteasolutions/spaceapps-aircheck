@@ -16,7 +16,6 @@ function checkTileParams(tile, zoom) {
 }
 
 function getTileUrl(key, date = '2015-03-03') {
-  debugger;
   return (tile, zoom) => {
     let result;
     if (checkTileParams(tile, zoom)) {
@@ -30,7 +29,6 @@ ${key}/default/${date}/GoogleMapsCompatible_Level6/${zoom}/${tile.y}/${tile.x}.p
 }
 
 function getLayer(key, filterDate) {
-  debugger;
   const options = getLayerOptions({
     getTileUrl: getTileUrl(key, filterDate),
     alt: key,
@@ -54,7 +52,6 @@ const Layers = [
   name: key.split('_').slice(1).join(' '),
   // getLayer: _.partial(getLayer, key),
   getLayer: date => {
-    debugger;
     return getLayer(key, date);
   },
 }));
