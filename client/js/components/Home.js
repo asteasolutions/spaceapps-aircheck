@@ -62,8 +62,6 @@ class Home extends Component {
                 />
               </Panel>
             </PanelGroup>
-            <Button onClick={ this._onRequestTileCoordinates }>Get Tile Coordinate</Button>
-            <Button onClick={ generateDummyData }>Generate Dummy Data</Button>
           </div>
           <WorldMap reportedSymptoms={reportedSymptoms}
             filterDate={this.state.filterDate.value}
@@ -71,6 +69,8 @@ class Home extends Component {
           />
         </div>
         <div className='row'>
+          <Button onClick={ this._onRequestTileCoordinates }>Get Tile Coordinate</Button>
+          <Button onClick={ generateDummyData }>Generate Dummy Data</Button>
           <h4>Reported symptoms</h4>
           <ReportedSymptomsList reportedSymptoms={reportedSymptoms} />
         </div>
