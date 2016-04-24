@@ -5,11 +5,6 @@ import { loadCurrentLocation } from '../actions/HomeActions';
 import { centerMap, moveMap, moveMarker } from '../actions/WorldMapActions';
 
 class WorldMap extends Component {
-  constructor(props) {
-    super(props);
-    this._centerMap = this._centerMapClick.bind(this);
-  }
-
   componentDidMount() {
     this.props.dispatch(loadCurrentLocation());
 
@@ -118,7 +113,7 @@ class WorldMap extends Component {
     this.symptomLayer.setMap(areSymptomsVisible ? this._map : null);
   }
 
-  _centerMapClick() {
+  _centerMap() {
     this.props.dispatch(centerMap());
   }
 
@@ -131,7 +126,6 @@ class WorldMap extends Component {
     return (
       <div className='col-md-9' style={{ paddingRight: 0 + 'px', paddingLeft: 0 + 'px' }}>
         <div id='map' className='map' style={ style }></div>
-        <button className='btn' onClick={ this._centerMap } > Center map </button>
       </div>
     );
   }

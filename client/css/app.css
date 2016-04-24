@@ -32,3 +32,15 @@
   width: 36px;
   height: 36px;
 }
+
+.symptom-form .location {
+  display: flex;
+  align-items: center;
+}
+
+.symptom-form .my-location {
+  width: 36px;
+  height: 36px;
+  background-repeat: no-repeat;
+  background-image: url('../assets/location.svg');
+}

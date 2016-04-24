@@ -7,6 +7,7 @@ import { FormGroup, ControlLabel, FormControl, DropdownButton, MenuItem, Button,
 import createComponent from '../utils/createComponent';
 import symptoms from '../utils/symptoms';
 import AddReportedSymptomMutation from '../data/mutations/AddReportedSymptomMutation';
+import { centerMap } from '../actions/WorldMapActions';
 
 class SymptomForm extends Component {
   constructor() {
@@ -16,6 +17,7 @@ class SymptomForm extends Component {
     this._typeSelected = this._typeSelected.bind(this);
     this._categoySelected = this._categoySelected.bind(this);
     this._gradeChanged = this._gradeChanged.bind(this);
+    this._onCenterMap = this._onCenterMapClick.bind(this);
 
     this.state = this.state || {
       category: 0,
@@ -54,6 +56,10 @@ class SymptomForm extends Component {
 
   _gradeChanged(index) {
     this.setState({ grade: index + 1 });
+  }
+
+  _onCenterMapClick() {
+    this.props.dispatch(centerMap());
   }
 
   render() {
@@ -133,15 +139,17 @@ class SymptomForm extends Component {
           </ButtonGroup>
         </FormGroup>
 
-        <FormGroup controllId='locationLat'>
-          <ControlLabel> Latitude </ControlLabel>
-          <FormControl type='text' value={ this.props.latitude } />
-        </FormGroup>
-
-        <FormGroup controllId='locationLon'>
-          <ControlLabel> Longitude </ControlLabel>
-          <FormControl type='text' value={ this.props.longitude } />
-        </FormGroup>
+        <div className='location'>
+          <FormGroup controllId='locationLat' className='location-form-group'>
+            <ControlLabel> Latitude </ControlLabel>
+            <FormControl type='text' value={ this.props.latitude } />
+          </FormGroup>
+          <FormGroup controllId='locationLon' className='location-form-group'>
+            <ControlLabel> Longitude </ControlLabel>
+            <FormControl type='text' value={ this.props.longitude } />
+          </FormGroup>
+          <Button tpye='button' className='my-location' onClick={ this._onCenterMap } />
+        </div>
 
         <Button type='button' className='btn-success' onClick={ this._onSubmit }> Report </Button>
       </form>
