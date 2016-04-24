@@ -29,7 +29,7 @@
 
 .symptom-form .grade button {
   cursor: pointer;
-  width: 36px;
+  width: 33.3333334%;
   height: 36px;
 }
 
@@ -59,4 +59,10 @@
 
 .date {
   margin-top: 15px;
+}
+
+.btn-group-vertical,
+div.dropdown.btn-group,
+#symptom-type {
+  width: 100%;
 }

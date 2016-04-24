@@ -37,10 +37,10 @@ class LayersList extends Component {
               </Button>
             )
           }
-          <Button className='btn btn-success'
+          <Button className='btn'
             active={ areSymptomsVisible }
             onClick={ this._onToggleSymptomsClick.bind(this) }>
-              Symptoms
+              User Reported Symptoms
           </Button>
         </ButtonGroup>
       </div>

@@ -136,7 +136,7 @@ class WorldMap extends Component {
       border: 'blue',
     };
     return (
-      <div className='col-md-8' style={{ paddingRight: 0 + 'px', paddingLeft: 0 + 'px' }}>
+      <div className='col-md-9' style={{ paddingRight: 0 + 'px', paddingLeft: 0 + 'px' }}>
         <div id='map' className='map' style={ style }></div>
       </div>
     );

@@ -139,7 +139,7 @@ class SymptomForm extends Component {
           </ButtonGroup>
         </FormGroup>
 
-        <h4> Move pin on map to select location </h4>
+        <ControlLabel> Move pin on map to select location </ControlLabel>
         <div className='location row'>
           <FormControl type='text' value={ this.props.latitude } className='col-md5' />
           <FormControl type='text' value={ this.props.longitude } className='col-md5' />

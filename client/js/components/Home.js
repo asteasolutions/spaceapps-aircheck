@@ -39,7 +39,7 @@ class Home extends Component {
     return (
       <main className='container-fluid'>
         <div className='row'>
-          <div id='left-panel' className='col-md-4'>
+          <div id='left-panel' className='col-md-3'>
             <div id='left-header' className='text-center'><p>Boreas</p></div>
             <PanelGroup defaultActiveKey='1' accordion>
               <Panel header='Report a Symptom' eventKey='1'>
