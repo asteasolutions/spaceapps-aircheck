@@ -12,6 +12,7 @@ import LayersList from './LayersList';
 import Stat from './Stat';
 import { requestTileCoordinates } from '../actions/WorldMapActions';
 import { PanelGroup, Panel, ButtonGroup, Button, Input } from 'react-bootstrap';
+import { generateDummyData } from '../data/dummyDataGenerator';
 
 class Home extends Component {
   constructor(props) {
@@ -62,6 +63,7 @@ class Home extends Component {
               </Panel>
             </PanelGroup>
             <Button onClick={ this._onRequestTileCoordinates }>Get Tile Coordinate</Button>
+            <Button onClick={ generateDummyData }>Generate Dummy Data</Button>
           </div>
           <WorldMap reportedSymptoms={reportedSymptoms}
             filterDate={this.state.filterDate.value}
