@@ -78,7 +78,7 @@ class Stat extends Component {
     console.log(this.state.tilesInfoByDate);
     console.log(this.state.correlation);
 
-    return (<span>bu</span>);
+    return (<span></span>);
   }
 }
 

@@ -53,7 +53,6 @@ class Home extends Component {
                   dateTime={this.state.filterDate.value}
                   onChange={this.onChangeDateFilter.bind(this)}
                   format={this.state.filterDate.format}
-                  inputFormat='DD/MM/YYYY'
                 />
               </Panel>
             </PanelGroup>
@@ -84,7 +83,7 @@ class Home extends Component {
 export default createComponent(Home, {
   relayConfig: {
     initialVariables: {
-      filter: { date: '2016-04-24'},
+      filter: { date: '2016-04-24' },
     },
     fragments: {
       viewer: () => Relay.QL`
