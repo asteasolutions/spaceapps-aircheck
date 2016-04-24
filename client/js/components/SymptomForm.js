@@ -1,7 +1,7 @@
 import '../../css/app.css';
 import React, { Component } from 'react';
 import Relay from 'react-relay';
-import { FormGroup, Radio, ControlLabel, FormControl, DropdownButton, MenuItem, Button }
+import { FormGroup, ControlLabel, FormControl, DropdownButton, MenuItem, Button, ButtonGroup }
     from 'react-bootstrap';
 
 import createComponent from '../utils/createComponent';
@@ -20,6 +20,7 @@ class SymptomForm extends Component {
     this.state = this.state || {
       category: 0,
       type: 0,
+      grade: 1,
     };
   }
 
@@ -31,7 +32,7 @@ class SymptomForm extends Component {
       name,
       lon: this.props.longitude,
       lat: this.props.latitude,
-      grade: grade.valueAsNumber, // this.state.grade,
+      grade: this.state.grade,
     };
 
     const areAllVluesSet = Object.keys(props).reduce((prev, key) => prev && !!props[key], true);
@@ -51,8 +52,8 @@ class SymptomForm extends Component {
     });
   }
 
-  _gradeChanged(value) {
-    this.setState({ grade: value.valueAsNumber });
+  _gradeChanged(index) {
+    this.setState({ grade: index + 1 });
   }
 
   render() {
@@ -60,30 +61,42 @@ class SymptomForm extends Component {
     const availableTypes = symptoms.types.get(category);
 
     return (
-      <form>
+      <form className='symptom-form'>
         <FormGroup
+          className='category'
           controlId='category'
         >
+          <ButtonGroup>
           {
             symptoms.categories.map((cat, index) => {
               const active = index === this.state.category;
               const changed = this._categoySelected.bind(this, index);
+              const bg = require(`../../assets/${cat}_transparent.svg`);
+              const style = {
+                backgroundImage: `url('${bg}')`,
+              };
               return (
-                <label>
-                <Radio inline checked={ active } key={ cat } onChange={ changed } >
-                  {cat}
-                </Radio>
-                <img src={require('../../assets/' + cat + '_transparent.svg')} ></img>
-                </label>
+                <Button
+                  active={ active }
+                  key={ cat }
+                  onClick={ changed }
+                  style={ style }
+                />
               );
             })
           }
+          </ButtonGroup>
         </FormGroup>
 
         <FormGroup
-          controlId='name'
+          controlId='type'
+          className='type'
         >
-          <DropdownButton title='Select symptom' id='symptom-type' onSelect={ this._typeSelected } >
+          <DropdownButton
+            title={ availableTypes[this.state.type] }
+            id='symptom-type'
+            onSelect={ this._typeSelected }
+          >
               {
                 availableTypes.map((type, index) => {
                   const active = index === this.state.type;
@@ -96,9 +109,28 @@ class SymptomForm extends Component {
           </DropdownButton>
         </FormGroup>
 
-        <FormGroup controlId='grade'>
+        <FormGroup
+          controlId='grade'
+          className='grade'
+        >
           <ControlLabel> Select intensity </ControlLabel>
-          <FormControl type='number' min='1' max='3' step='1' onChange={ this._gradeChanged } />
+          <ButtonGroup justified>
+          {
+            ['I', 'II', 'III'].map((grade, index) => {
+              const active = index + 1 === this.state.grade;
+              const changed = this._gradeChanged.bind(this, index);
+              return (
+                <Button
+                  active={ active }
+                  key={ `grade-${grade}` }
+                  onClick={ changed }
+                >
+                  {grade}
+                </Button>
+              );
+            })
+          }
+          </ButtonGroup>
         </FormGroup>
 
         <FormGroup controllId='locationLat'>
