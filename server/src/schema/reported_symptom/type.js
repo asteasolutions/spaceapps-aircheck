@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {
   GraphQLObjectType,
   GraphQLList,
@@ -6,7 +7,6 @@ import {
   GraphQLInt,
 } from 'graphql';
 import { globalIdField } from 'graphql-relay';
-import { CalendarDateType } from '../calendar_date';
 import Node from '../node';
 import ReportedSymptom from '../../models/reported_symptom';
 
@@ -21,7 +21,10 @@ export default new GraphQLObjectType({
   fields: () => ({
     id: globalIdField(TYPE_NAME, (obj) => obj._id.toString()),
     name: { type: GraphQLString },
-    date: { type: CalendarDateType },
+    date: {
+      type: GraphQLString,
+      resolve: (obj) => moment(obj.date).format('YYYY-MM-DD'),
+    },
     coords: {
       type: new GraphQLList(GraphQLFloat),
       resolve: (obj) => obj.location.coordinates,

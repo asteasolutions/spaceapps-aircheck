@@ -15,6 +15,7 @@ const ReportedSymptomsFilterType = new GraphQLInputObjectType({
   fields: () => ({
     name: { type: GraphQLString },
     date: { type: CalendarDateType },
+    toDate: { type: CalendarDateType },
     category: { type: GraphQLString },
     containment: { type: new GraphQLList(new GraphQLList(GraphQLFloat)) },
   }),

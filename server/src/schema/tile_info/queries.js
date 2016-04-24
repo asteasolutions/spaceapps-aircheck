@@ -70,7 +70,7 @@ const TileInfoFilterType = new GraphQLInputObjectType({
     toDate: { type: new GraphQLNonNull(CalendarDateType) },
     zoomLevel: { type: new GraphQLNonNull(GraphQLInt) },
     coords: { type: new GraphQLNonNull(new GraphQLList(new GraphQLInputObjectType({
-      name: 'Coords',
+      name: 'CoordsInput',
       fields: () => ({
         x: { type: GraphQLInt },
         y: { type: GraphQLInt },
