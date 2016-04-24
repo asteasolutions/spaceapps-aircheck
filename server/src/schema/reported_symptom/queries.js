@@ -6,6 +6,7 @@ import {
   GraphQLFloat,
 } from 'graphql';
 import { fromGlobalId } from 'graphql-relay';
+import { CalendarDateType } from '../calendar_date';
 import ReportedSymptomType from './type';
 import ReportedSymptom from '../../models/reported_symptom';
 
@@ -13,6 +14,8 @@ const ReportedSymptomsFilterType = new GraphQLInputObjectType({
   name: 'ReportedSymptomsFilter',
   fields: () => ({
     name: { type: GraphQLString },
+    date: { type: CalendarDateType },
+    toDate: { type: CalendarDateType },
     category: { type: GraphQLString },
     containment: { type: new GraphQLList(new GraphQLList(GraphQLFloat)) },
   }),

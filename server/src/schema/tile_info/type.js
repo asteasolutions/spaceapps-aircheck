@@ -1,38 +1,42 @@
 import moment from 'moment';
 import {
   GraphQLObjectType,
-  GraphQLList,
   GraphQLString,
   GraphQLFloat,
   GraphQLInt,
 } from 'graphql';
 import { globalIdField } from 'graphql-relay';
 import Node from '../node';
-import ReportedSymptom from '../../models/reported_symptom';
+import TileInfo from '../../models/tile_info';
 
-const TYPE_NAME = 'ReportedSymptom';
+const TYPE_NAME = 'TileInfo';
 
 Node.setIdFetcher(TYPE_NAME, (id) => new Promise((resolve, reject) =>
-    ReportedSymptom.findById(id, (err, res) => (err ? reject(err) : resolve(res)))));
+    TileInfo.findById(id, (err, res) => (err ? reject(err) : resolve(res)))));
 
 export default new GraphQLObjectType({
   name: TYPE_NAME,
-  description: 'A symptom reported by a user at a given date and location.',
+  description: 'Statistical information about a map tile calculated on data collected by NASA.',
   fields: () => ({
     id: globalIdField(TYPE_NAME, (obj) => obj._id.toString()),
-    name: { type: GraphQLString },
     date: {
       type: GraphQLString,
       resolve: (obj) => moment(obj.date).format('YYYY-MM-DD'),
     },
     coords: {
-      type: new GraphQLList(GraphQLFloat),
-      resolve: (obj) => obj.location.coordinates,
+      type: new GraphQLObjectType({
+        name: 'Coords',
+        fields: () => ({
+          x: { type: GraphQLInt },
+          y: { type: GraphQLInt },
+        }),
+      }),
     },
-    grade: { type: GraphQLInt },
-    category: { type: GraphQLString },
+    zoom: { type: GraphQLInt },
+    layer: { type: GraphQLString },
+    sampleValue: { type: GraphQLFloat },
   }),
-  isTypeOf: (obj) => obj instanceof ReportedSymptom,
+  isTypeOf: (obj) => obj instanceof TileInfo,
 
   interfaces: [Node.interface],
 });

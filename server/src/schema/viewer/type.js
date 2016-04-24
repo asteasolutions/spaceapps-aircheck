@@ -1,5 +1,6 @@
 import { GraphQLObjectType } from 'graphql';
 import { ReportedSymptomQueries } from '../reported_symptom';
+import { TileInfoQueries } from '../tile_info';
 import { globalIdField } from 'graphql-relay';
 import Node from '../node';
 
@@ -13,6 +14,7 @@ export default new GraphQLObjectType({
   fields: () => ({
     id: globalIdField(TYPE_NAME, () => 'viewer'),
     ...ReportedSymptomQueries,
+    ...TileInfoQueries,
   }),
 
   implements: [Node.interface],

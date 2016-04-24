@@ -25,11 +25,12 @@ const ReportedSymptomSchema = new mongoose.Schema({
   },
 });
 
-ReportedSymptomSchema.static('filter', function filter({ date, containment, ...match }) {
+ReportedSymptomSchema.static('filter', function filter({ date, toDate, containment, ...match }) {
   const query = _.clone(match);
   if (date) {
+    const endDate = toDate || date;
     const fromTime = moment(date).startOf('day').toDate();
-    const toTime = moment(date).endOf('day').toDate();
+    const toTime = moment(endDate).endOf('day').toDate();
     query.date = {
       $gte: fromTime,
       $lte: toTime,

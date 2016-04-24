@@ -5,7 +5,7 @@ import {
   GraphQLNonNull,
   GraphQLInt,
 } from 'graphql';
-import GraphQLDateType from 'graphql-custom-datetype';
+import { CalendarDateType } from '../calendar_date';
 import ReportedSymptomType from './type';
 import ReportedSymptom from '../../models/reported_symptom';
 import { ViewerType } from '../viewer';
@@ -16,7 +16,7 @@ export default {
     name: 'AddReportedSymptom',
     inputFields: {
       name: { type: new GraphQLNonNull(GraphQLString) },
-      date: { type: GraphQLDateType },
+      date: { type: CalendarDateType },
       coords: { type: new GraphQLList(GraphQLFloat) },
       grade: { type: GraphQLInt },
       category: { type: GraphQLString },
