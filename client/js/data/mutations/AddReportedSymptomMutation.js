@@ -11,6 +11,7 @@ export default class AddReportedSymptomMutation extends Relay.Mutation {
       coords: [this.props.lon, this.props.lat],
       grade: this.props.grade,
       category: this.props.category,
+      date: this.props.date,
     };
   }
 

@@ -40,7 +40,7 @@ export default function (state = defaultState, action) {
 
     case ActionTypes.CHANGE_DATE: {
       const { filterDate } = action;
-      return { ...state, filterDate };
+      return { ...state, filterDate, layersToggled: true };
     }
 
     default:

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 import Relay from 'react-relay';
 import AddReportedSymptomMutation from '../data/mutations/AddReportedSymptomMutation';
 import symptoms from '../utils/symptoms';
@@ -9,18 +10,23 @@ const defaultBounds = {
   lngMin: 23.2,
   lngMax: 23.45,
 };
+
 function generateSymptomData(bounds = defaultBounds) {
   const category = _.sample(symptoms.categories);
   const name = _.sample(symptoms.types.get(category));
   const grade = _.random(1, 3);
   const lat = _.random(bounds.latMin, bounds.latMax);
   const lon = _.random(bounds.lngMin, bounds.lngMax);
+  const offset = _.random(-10, 0);
+  const date = moment();
+  date.add(offset, 'days');
   return {
     category,
     name,
     grade,
     lat,
     lon,
+    date: date.format('YYYY-MM-d'),
   };
 }
 
