@@ -1,5 +1,5 @@
 import {
-  TOGGLE_LAYER, TOGGLE_SYMPTOMS_LAYER, CHANGE_DATE,
+  TOGGLE_LAYER, TOGGLE_SYMPTOMS_LAYER, CHANGE_DATE, LAYERS_TOGGLED,
 } from '../constants/ActionTypes';
 
 export function toggleLayer(key) {
@@ -17,4 +17,10 @@ export function toggleSymptomsLayer() {
 export function changeDate(filterDate) {
   const type = CHANGE_DATE;
   return { type, filterDate };
+}
+
+export function layersToggled() {
+  return {
+    type: LAYERS_TOGGLED,
+  };
 }

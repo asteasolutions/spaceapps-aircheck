@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import createComponent from '../utils/createComponent';
 import { loadCurrentLocation } from '../actions/HomeActions';
 import { centerMap, moveMap, moveMarker } from '../actions/WorldMapActions';
+import { layersToggled } from '../actions/LayersActions';
 
 class WorldMap extends Component {
   componentDidMount() {
@@ -14,10 +15,13 @@ class WorldMap extends Component {
   }
 
   componentWillReceiveProps(props) {
-    const { areSymptomsVisible } = props.WorldMap.Layers;
-    this.updateSymptoms(props.reportedSymptoms, areSymptomsVisible);
+    this._updateSymptoms(props.WorldMap.Layers, props.reportedSymptoms);
     this._updateLayers(props.WorldMap.Layers);
     this._updateCurrentLocation(props);
+
+    if (props.WorldMap.Layers.layersToggled) {
+      this.props.dispatch(layersToggled());
+    }
   }
 
   _initMap() {
@@ -62,6 +66,10 @@ class WorldMap extends Component {
   }
 
   _updateLayers(props) {
+    if (props.layersToggled === false) {
+      return;
+    }
+
     const overlayMapTypes = this._map.overlayMapTypes;
     const layers = this._map.overlayMapTypes.getArray();
     const indicesToRemove = [];
@@ -100,7 +108,11 @@ class WorldMap extends Component {
     }
   }
 
-  updateSymptoms(symptoms, areSymptomsVisible) {
+  _updateSymptoms(props, symptoms) {
+    if (props.layersToggled === false) {
+      return;
+    }
+
     const data = symptoms.map(symptom => {
       const [lng, lat] = symptom.coords;
       return {
@@ -110,7 +122,7 @@ class WorldMap extends Component {
     });
 
     this.symptomLayer.setData(data);
-    this.symptomLayer.setMap(areSymptomsVisible ? this._map : null);
+    this.symptomLayer.setMap(props.areSymptomsVisible ? this._map : null);
   }
 
   _centerMap() {
