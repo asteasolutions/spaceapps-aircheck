@@ -139,19 +139,17 @@ class SymptomForm extends Component {
           </ButtonGroup>
         </FormGroup>
 
-        <div className='location'>
-          <FormGroup controllId='locationLat' className='location-form-group'>
-            <ControlLabel> Latitude </ControlLabel>
-            <FormControl type='text' value={ this.props.latitude } />
-          </FormGroup>
-          <FormGroup controllId='locationLon' className='location-form-group'>
-            <ControlLabel> Longitude </ControlLabel>
-            <FormControl type='text' value={ this.props.longitude } />
-          </FormGroup>
-          <Button tpye='button' className='my-location' onClick={ this._onCenterMap } />
+        <h4> Move pin on map to select location </h4>
+        <div className='location row'>
+          <FormControl type='text' value={ this.props.latitude } className='col-md5' />
+          <FormControl type='text' value={ this.props.longitude } className='col-md5' />
+          <div className='location-form-group col-md2'>
+            <Button tpye='button' className='my-location' onClick={ this._onCenterMap } />
+          </div>
         </div>
-
-        <Button type='button' className='btn-success' onClick={ this._onSubmit }> Report </Button>
+          <Button type='button' id='btn-report' className='btn-success'
+            onClick={ this._onSubmit }> Report symptom
+          </Button>
       </form>
     );
   }
