@@ -20,13 +20,14 @@ class Home extends Component {
     this.state = {
       filterDate: {
         format: 'YYYY-MM-DD',
-        value: '2015-03-03',
+        value: '2016-04-24',
       },
     };
   }
 
-  onChangeDateFilter(value) {
-    this.props.dispatch(changeDate(value));
+  onChangeDateFilter(date) {
+    this.props.dispatch(changeDate(date));
+    this.props.relay.setVariables({ filter: { date } });
   }
 
   _onGetCurrentCoordsClick() {
@@ -72,10 +73,13 @@ class Home extends Component {
 
 export default createComponent(Home, {
   relayConfig: {
+    initialVariables: {
+      filter: { date: '2016-04-24'}
+    },
     fragments: {
       viewer: () => Relay.QL`
         fragment on Viewer {
-          reportedSymptoms {
+          reportedSymptoms(filter: $filter) {
             id
             name
             date
