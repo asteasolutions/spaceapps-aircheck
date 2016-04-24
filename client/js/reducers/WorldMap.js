@@ -4,6 +4,8 @@ import Layers from './Layers';
 
 const defaultState = {
   isMapCentered: true,
+  tileCoordinates: null,
+  tileCoordinatesRequested: false,
 };
 
 function Location(state = defaultState, action) {
@@ -18,6 +20,18 @@ function Location(state = defaultState, action) {
         dropPin: {
           ...action.location,
         },
+      };
+    case ActionTypes.REQUEST_TILE_COORDINATES:
+      return {
+        ...state,
+        tileCoordinates: null,
+        tileCoordinatesRequested: true,
+      };
+    case ActionTypes.TILE_COORDINATES_AVAILABLE:
+      return {
+        ...state,
+        tileCoordinates: action.tileCoordinates,
+        tileCoordinatesRequested: false,
       };
     default:
       return state;

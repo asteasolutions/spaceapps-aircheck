@@ -1,9 +1,10 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import createComponent from '../utils/createComponent';
+import { latLngToTile, tileToLatLng } from '../utils/worldMap';
 import { loadCurrentLocation } from '../actions/HomeActions';
-import { centerMap, moveMap, moveMarker } from '../actions/WorldMapActions';
 import { layersToggled } from '../actions/LayersActions';
+import { centerMap, moveMap, moveMarker, tileCoordinatesAvailable } from '../actions/WorldMapActions';
 
 class WorldMap extends Component {
   componentDidMount() {
@@ -18,6 +19,7 @@ class WorldMap extends Component {
     this._updateSymptoms(props.WorldMap.Layers, props.reportedSymptoms);
     this._updateLayers(props.WorldMap.Layers);
     this._updateCurrentLocation(props);
+    this._updateTileCoordinates(props);
 
     if (props.WorldMap.Layers.layersToggled) {
       this.props.dispatch(layersToggled());
@@ -124,6 +126,29 @@ class WorldMap extends Component {
     this.symptomLayer.setData(data);
     this.symptomLayer.setMap(props.areSymptomsVisible ? this._map : null);
   }
+
+  _updateTileCoordinates(props) {
+    const shouldGetTileCoordinates = props.WorldMap.Location.tileCoordinatesRequested &&
+      !this.props.WorldMap.Location.tileCoordinatesRequested;
+    if (shouldGetTileCoordinates) {
+      const tileCoordinates = this._getTileCoordinates();
+      this.props.dispatch(tileCoordinatesAvailable(tileCoordinates));
+    }
+  }
+
+  _getTileCoordinates() {
+    const latLng = this._marker.getPosition();
+    const zoom = this._map.getZoom();
+
+    const tile = latLngToTile(latLng, zoom);
+    const bounds = tileToLatLng(tile);
+
+    return {
+      tile,
+      bounds,
+    };
+  }
+
 
   _centerMap() {
     this.props.dispatch(centerMap());
