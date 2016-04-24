@@ -20,9 +20,9 @@ class LayersList extends Component {
   }
 
   render() {
-    const { activeLayers, availableLayers, areSymptomsVisible} = this.props;
+    const { activeLayers, availableLayers, areSymptomsVisible } = this.props;
     const layersStatus = _(availableLayers)
-      .keyBy(layer => layer.key )
+      .keyBy(layer => layer.key)
       .mapValues(layer => _.includes(activeLayers, layer))
       .value();
 

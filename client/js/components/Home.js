@@ -10,7 +10,7 @@ import SymptomForm from './SymptomForm';
 import WorldMap from './WorldMap';
 import LayersList from './LayersList';
 import Stat from './Stat';
-import { PanelGroup, Panel, ButtonGroup, Button, Input } from 'react-bootstrap';
+import { PanelGroup, Panel } from 'react-bootstrap';
 
 
 class Home extends Component {
@@ -36,12 +36,11 @@ class Home extends Component {
 
   render() {
     const { reportedSymptoms } = this.props.viewer;
-    const { areSymptomsVisible } = this.state;
 
     return (
       <main className='container-fluid'>
         <div className='row'>
-          <div id='left-panel' className='col-md-3'>
+          <div id='left-panel' className='col-md-4'>
             <div id='left-header' className='text-center'><p>Boreas</p></div>
             <PanelGroup defaultActiveKey='1' accordion>
               <Panel header='Report a Symptom' eventKey='1'>
