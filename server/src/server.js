@@ -19,6 +19,6 @@ server.use('/graphql', graphqlHTTP(request => ({
 })));
 
 server.listen(port, () => {
-	// eslint-disable-next-line no-console
+  // eslint-disable-next-line no-console
   console.log(`The server is running at http://localhost: ${port}`);
 });

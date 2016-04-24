@@ -1,4 +1,4 @@
-import '../../css/app.css'
+import '../../css/app.css';
 import React, { Component } from 'react';
 import Relay from 'react-relay';
 import DateTimeField from 'react-bootstrap-datetimepicker';
@@ -21,9 +21,13 @@ class Home extends Component {
       areSymptomsVisible: false,
       filterDate: {
         format: 'YYYY-MM-DD',
-        value: '2015-03-03'
-      }
+        value: '2015-03-03',
+      },
     };
+  }
+
+  onChangeDateFilter(value) {
+    this.props.dispatch(changeDate(value));
   }
 
   _onGetCurrentCoordsClick() {
@@ -36,10 +40,6 @@ class Home extends Component {
     });
   }
 
-  onChangeDateFilter(value) {
-    this.props.dispatch(changeDate(value));
-  }
-
   render() {
     const { reportedSymptoms } = this.props.viewer;
     const { areSymptomsVisible } = this.state;
@@ -48,7 +48,7 @@ class Home extends Component {
       <main className='container-fluid'>
         <div className='row'>
           <div id='left-panel' className='col-md-3'>
-            <div id='left-header' className='text-center'><p>Aircheck</p></div>
+            <div id='left-header' className='text-center'><p>Boreas</p></div>
             <PanelGroup defaultActiveKey='1' accordion>
               <Panel header='Report a Symptom' eventKey='1'>
                 <SymptomForm />
@@ -61,8 +61,8 @@ class Home extends Component {
                 <DateTimeField
                   dateTime={this.state.filterDate.value}
                   onChange={this.onChangeDateFilter.bind(this)}
-                  format={this.state.filterDate.format}>
-                </DateTimeField>
+                  format={this.state.filterDate.format}
+                />
               </Panel>
             </PanelGroup>
           </div>
