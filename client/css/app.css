@@ -19,7 +19,7 @@
 
 .symptom-form .category button {
   cursor: pointer;
-  /*border: 2px solid transparent;*/
+  border: 2px solid transparent;
   width: 36px;
   height: 36px;
   background-size: contain;

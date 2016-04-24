@@ -52,8 +52,8 @@ class SymptomForm extends Component {
     });
   }
 
-  _gradeChanged(value) {
-    this.setState({ grade: value.valueAsNumber });
+  _gradeChanged(index) {
+    this.setState({ grade: index + 1 });
   }
 
   render() {
@@ -92,7 +92,11 @@ class SymptomForm extends Component {
           controlId='type'
           className='type'
         >
-          <DropdownButton title='Select symptom' id='symptom-type' onSelect={ this._typeSelected } >
+          <DropdownButton
+            title={ availableTypes[this.state.type] }
+            id='symptom-type'
+            onSelect={ this._typeSelected }
+          >
               {
                 availableTypes.map((type, index) => {
                   const active = index === this.state.type;
@@ -120,7 +124,9 @@ class SymptomForm extends Component {
                   active={ active }
                   key={ `grade-${grade}` }
                   onClick={ changed }
-                > {grade} </Button>
+                >
+                  {grade}
+                </Button>
               );
             })
           }
