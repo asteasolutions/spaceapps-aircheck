@@ -2,6 +2,7 @@
   "name": "aircheck",
   "version": "0.0.0",
   "description": "Add your description here.",
+  "repository": "https://github.com/asteasolutions/spaceapps-aircheck.git",
   "author": "Your Name <handle@domain.com>",
   "main": "src/server.js",
   "scripts": {
@@ -21,8 +22,7 @@
     "express": "^4.13.4",
     "express-graphql": "^0.5.1",
     "graphql": "^0.5.0",
-    "graphql-custom-datetype": "^0.2.1",
-    "graphql-relay": "^0.3.6",
+    "graphql-relay": "^0.4.1",
     "moment": "^2.13.0",
     "mongoose": "^4.4.12",
     "pngjs": "^2.3.0",

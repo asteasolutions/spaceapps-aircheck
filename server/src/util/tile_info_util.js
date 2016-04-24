@@ -5,13 +5,14 @@ import fs from 'fs';
 import temp from 'temp';
 import moment from 'moment';
 import { PNG } from 'pngjs';
-import color from 'color-convert';
+import ColorConvert from 'color-convert';
 
 temp.track();
 
-function getTileUrl({ layer, x, y, zoom, date }) {
+function getTileUrl({ layer, zoom, date, coords }) {
   return `http://map1.vis.earthdata.nasa.gov/wmts-webmerc/${layer}/default/` +
-    `${moment(date).format('YYYY-MM-DD')}/GoogleMapsCompatible_Level6/${zoom}/${y}/${x}.png`;
+    `${moment(date).format('YYYY-MM-DD')}/GoogleMapsCompatible_Level6/` +
+    `${zoom}/${coords.y}/${coords.x}.png`;
 }
 
 function getPaletteUrl(layer) {
@@ -77,13 +78,16 @@ async function parsePng(path, palette) {
       .pipe(new PNG())
       .on('parsed', function parse() {
         const pixelValues = [];
+        const colorValues = new Map();
+        palette.scale.colors.forEach((color, i) => {
+          colorValues.set(color, palette.scale.values[i]);
+        });
         for (let y = 0; y < this.height; y++) {
           for (let x = 0; x < this.width; x++) {
             const idx = (this.width * y + x) << 2;
             const [r, g, b, a] = _.slice(this.data, idx, idx + 4);
-            const hex = `${color.rgb.hex(r, g, b)}${a.toString(16)}`.toLowerCase();
-            const scaleIndex = palette.scale.colors.findIndex((c) => c === hex);
-            const pixelValue = scaleIndex >= 0 ? palette.scale.values[scaleIndex] : 0;
+            const hex = `${ColorConvert.rgb.hex(r, g, b)}${a.toString(16)}`.toLowerCase();
+            const pixelValue = colorValues.get(hex) || 0;
             pixelValues.push(pixelValue);
           }
         }
@@ -97,7 +101,13 @@ async function parsePng(path, palette) {
   });
 }
 
-class TileInfoExtractor {
+class TileInfoUtil {
+  getTileUid(tile) {
+    const m = moment(tile.date);
+    const { x, y } = tile.coords;
+    return `${tile.layer}/${m.format('YYYY-MM-DD')}/${tile.zoom}/${y}/${x}`;
+  }
+
   async extractInfo(tileDescr) {
     let tmpTilePath;
     try {
@@ -114,4 +124,4 @@ class TileInfoExtractor {
   }
 }
 
-export default new TileInfoExtractor();
+export default new TileInfoUtil();

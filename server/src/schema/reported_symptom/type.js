@@ -6,7 +6,7 @@ import {
   GraphQLInt,
 } from 'graphql';
 import { globalIdField } from 'graphql-relay';
-import GraphQLDateType from 'graphql-custom-datetype';
+import { CalendarDateType } from '../calendar_date';
 import Node from '../node';
 import ReportedSymptom from '../../models/reported_symptom';
 
@@ -21,7 +21,7 @@ export default new GraphQLObjectType({
   fields: () => ({
     id: globalIdField(TYPE_NAME, (obj) => obj._id.toString()),
     name: { type: GraphQLString },
-    date: { type: GraphQLDateType },
+    date: { type: CalendarDateType },
     coords: {
       type: new GraphQLList(GraphQLFloat),
       resolve: (obj) => obj.location.coordinates,
