@@ -9,6 +9,7 @@ import ReportedSymptomsList from './ReportedSymptomsList';
 import SymptomForm from './SymptomForm';
 import WorldMap from './WorldMap';
 import LayersList from './LayersList';
+import Stat from './Stat';
 import { PanelGroup, Panel } from 'react-bootstrap';
 
 
@@ -20,13 +21,14 @@ class Home extends Component {
     this.state = {
       filterDate: {
         format: 'YYYY-MM-DD',
-        value: '2015-03-03',
+        value: '2016-04-24',
       },
     };
   }
 
-  onChangeDateFilter(value) {
-    this.props.dispatch(changeDate(value));
+  onChangeDateFilter(date) {
+    this.props.dispatch(changeDate(date));
+    this.props.relay.setVariables({ filter: { date } });
   }
 
   _onGetCurrentCoordsClick() {
@@ -51,6 +53,7 @@ class Home extends Component {
                   dateTime={this.state.filterDate.value}
                   onChange={this.onChangeDateFilter.bind(this)}
                   format={this.state.filterDate.format}
+                  inputFormat='DD/MM/YYYY'
                 />
               </Panel>
             </PanelGroup>
@@ -64,6 +67,15 @@ class Home extends Component {
           <h4>Reported symptoms</h4>
           <ReportedSymptomsList reportedSymptoms={reportedSymptoms} />
         </div>
+        <Stat
+          layer='MODIS_Terra_Aerosol'
+          tileCoords={[{ x: 13, y: 32 }, { x: 13, y: 33 }]}
+          bbox={[[20, 40], [25, 45]]}
+          zoomLevel={6}
+          fromDate='2016-04-01'
+          toDate='2016-04-2'
+          viewer={this.props.viewer}
+        />
       </main>
     );
   }
@@ -71,10 +83,13 @@ class Home extends Component {
 
 export default createComponent(Home, {
   relayConfig: {
+    initialVariables: {
+      filter: { date: '2016-04-24'}
+    },
     fragments: {
       viewer: () => Relay.QL`
         fragment on Viewer {
-          reportedSymptoms {
+          reportedSymptoms(filter: $filter) {
             id
             name
             date
@@ -83,6 +98,7 @@ export default createComponent(Home, {
             category
             ${ReportedSymptomsList.getFragment('reportedSymptoms')}
           }
+          ${Stat.getFragment('viewer')}
         }
       `,
     },
