@@ -9,7 +9,9 @@ import Home from '../components/Home';
 const store = configureStore();
 
 Relay.injectNetworkLayer(
-  new Relay.DefaultNetworkLayer('http://localhost:1234/graphql'),
+  new Relay.DefaultNetworkLayer('http://localhost:1234/graphql', {
+    fetchTimeout: 120000,
+  }),
 );
 
 export default () => (

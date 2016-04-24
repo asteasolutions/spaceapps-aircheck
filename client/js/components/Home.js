@@ -9,6 +9,7 @@ import ReportedSymptomsList from './ReportedSymptomsList';
 import SymptomForm from './SymptomForm';
 import WorldMap from './WorldMap';
 import LayersList from './LayersList';
+import Stat from './Stat';
 import { PanelGroup, Panel, ButtonGroup, Button, Input } from 'react-bootstrap';
 
 
@@ -65,6 +66,15 @@ class Home extends Component {
           <h4>Reported symptoms</h4>
           <ReportedSymptomsList reportedSymptoms={reportedSymptoms} />
         </div>
+        <Stat
+          layer='MODIS_Terra_Aerosol'
+          tileCoords={[{ x: 13, y: 32 }, { x: 13, y: 33 }]}
+          bbox={[[20, 40], [25, 45]]}
+          zoomLevel={6}
+          fromDate='2016-04-01'
+          toDate='2016-04-2'
+          viewer={this.props.viewer}
+        />
       </main>
     );
   }
@@ -84,6 +94,7 @@ export default createComponent(Home, {
             category
             ${ReportedSymptomsList.getFragment('reportedSymptoms')}
           }
+          ${Stat.getFragment('viewer')}
         }
       `,
     },
