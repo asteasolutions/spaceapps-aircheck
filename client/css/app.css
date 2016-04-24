@@ -17,14 +17,18 @@
   color: white;
 }
 
-label > .radio-inline { /* HIDE RADIO */
-  visibility: hidden; /* Makes input not-clickable */
-  position: absolute; /* Remove input from document flow */
+.symptom-form .category button {
+  cursor: pointer;
+  /*border: 2px solid transparent;*/
+  width: 36px;
+  height: 36px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
-label > label + img{ /* IMAGE STYLES */
-  cursor:pointer;
-  border:2px solid transparent;
-  width: 48px;
-  height: 48px;
+.symptom-form .grade button {
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
 }
