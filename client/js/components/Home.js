@@ -10,13 +10,14 @@ import SymptomForm from './SymptomForm';
 import WorldMap from './WorldMap';
 import LayersList from './LayersList';
 import Stat from './Stat';
-import { PanelGroup, Panel } from 'react-bootstrap';
-
+import { requestTileCoordinates } from '../actions/WorldMapActions';
+import { PanelGroup, Panel, ButtonGroup, Button, Input } from 'react-bootstrap';
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this._onGetCurrentCoords = this._onGetCurrentCoordsClick.bind(this);
+    this._onRequestTileCoordinates = this._onRequestTileCoordinatesClick.bind(this);
 
     this.state = {
       filterDate: {
@@ -33,6 +34,10 @@ class Home extends Component {
 
   _onGetCurrentCoordsClick() {
     this.props.dispatch(loadCurrentLocation());
+  }
+
+  _onRequestTileCoordinatesClick() {
+    this.props.dispatch(requestTileCoordinates());
   }
 
   render() {
@@ -56,6 +61,7 @@ class Home extends Component {
                 />
               </Panel>
             </PanelGroup>
+            <Button onClick={ this._onRequestTileCoordinates }>Get Tile Coordinate</Button>
           </div>
           <WorldMap reportedSymptoms={reportedSymptoms}
             filterDate={this.state.filterDate.value}
