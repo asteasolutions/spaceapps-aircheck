@@ -53,6 +53,7 @@ class Home extends Component {
                   dateTime={this.state.filterDate.value}
                   onChange={this.onChangeDateFilter.bind(this)}
                   format={this.state.filterDate.format}
+                  inputFormat='DD/MM/YYYY'
                 />
               </Panel>
             </PanelGroup>
