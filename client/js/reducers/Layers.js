@@ -5,6 +5,7 @@ import Layers from '../utils/layers';
 const defaultState = {
   availableLayers: Layers,
   activeLayers: [],
+  layersToggled: false,
   areSymptomsVisible: false,
 };
 
@@ -19,15 +20,23 @@ export default function (state = defaultState, action) {
         layers = _.clone(state.activeLayers);
         layers.push(layer);
       }
-      return { ...state, activeLayers: layers };
+      return {
+        ...state,
+        layersToggled: true,
+        activeLayers: layers,
+      };
     }
 
     case ActionTypes.TOGGLE_SYMPTOMS_LAYER: {
       return {
         ...state,
+        layersToggled: true,
         areSymptomsVisible: !state.areSymptomsVisible,
       };
     }
+
+    case ActionTypes.LAYERS_TOGGLED:
+      return { ...state, layersToggled: false };
 
     case ActionTypes.CHANGE_DATE: {
       const { filterDate } = action;
