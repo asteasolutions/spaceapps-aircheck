@@ -71,8 +71,8 @@ class Home extends Component {
           tileCoords={[{ x: 13, y: 32 }, { x: 13, y: 33 }]}
           bbox={[[20, 40], [25, 45]]}
           zoomLevel={6}
-          fromDate='2016-04-01'
-          toDate='2016-04-2'
+          fromDate='2016-04-17'
+          toDate='2016-04-19'
           viewer={this.props.viewer}
         />
       </main>
@@ -83,7 +83,7 @@ class Home extends Component {
 export default createComponent(Home, {
   relayConfig: {
     initialVariables: {
-      filter: { date: '2016-04-24'}
+      filter: { date: '2016-04-24'},
     },
     fragments: {
       viewer: () => Relay.QL`
