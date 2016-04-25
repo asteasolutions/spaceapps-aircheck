@@ -3,6 +3,8 @@ import React, { Component, PropTypes } from 'react';
 import Relay from 'react-relay';
 import createComponent from '../utils/createComponent';
 import stat from 'simple-statistics';
+import Chart from './Chart';
+
 
 class Stat extends Component {
   constructor(props) {
@@ -78,7 +80,35 @@ class Stat extends Component {
     console.log(this.state.tilesInfoByDate);
     console.log(this.state.correlation);
 
+    let reportedSymptomsByDate = [];
+    let tilesInfoByDate = [];
+    const { reportedSymptoms, tilesInfo } = this.props.viewer;
+    if (reportedSymptoms && tilesInfo) {
+      const symptomsMap = _.groupBy(reportedSymptoms, 'date');
+      const tilesMap = _.groupBy(tilesInfo, 'date');
+      Object.keys(symptomsMap).forEach((date) => {
+        reportedSymptomsByDate.push({
+          date,
+          value: symptomsMap[date].length,
+        });
+        tilesInfoByDate.push({
+          date,
+          value: _.mean(tilesMap[date].map((t) => t.sampleValue)),
+        });
+      });
+
+      reportedSymptomsByDate = _.sortBy(reportedSymptomsByDate, 'date');
+      tilesInfoByDate = _.sortBy(tilesInfoByDate, 'date');
+    }
+
     return (<span></span>);
+    // return (
+    //   <Chart
+    //     symptomsCount={ reportedSymptomsByDate.map((s) => s.value) }
+    //     layerValues={ tilesInfoByDate.map((t) => t.value) }
+    //     dates={ tilesInfoByDate.map((t) => t.date) }
+    //   />
+    // );
   }
 }
 
