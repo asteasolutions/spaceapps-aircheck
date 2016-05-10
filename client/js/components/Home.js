@@ -81,18 +81,18 @@ class Home extends Component {
         <div className='row'>
           <Button onClick={ this._onRequestTileCoordinates }>Get Tile Coordinate</Button>
           <Button onClick={ generateDummyData }>Generate Dummy Data</Button>
-          <h4>Reported symptoms</h4>
-          <ReportedSymptomsList reportedSymptoms={reportedSymptoms} />
+          <Stat
+            layer='AIRS_CO_Total_Column_Day'
+            tileCoords={[{ x: 13, y: 32 }, { x: 13, y: 33 }]}
+            bbox={[[20, 40], [25, 45]]}
+            zoomLevel={6}
+            fromDate='2016-05-01'
+            toDate='2016-05-10'
+            viewer={this.props.viewer}
+          />
+          { /* <h4>Reported symptoms</h4>
+          <ReportedSymptomsList reportedSymptoms={reportedSymptoms} /> */ }
         </div>
-        <Stat
-          layer='AIRS_CO_Total_Column_Day'
-          tileCoords={[{ x: 13, y: 32 }, { x: 13, y: 33 }]}
-          bbox={[[20, 40], [25, 45]]}
-          zoomLevel={6}
-          fromDate='2016-05-01'
-          toDate='2016-05-10'
-          viewer={this.props.viewer}
-        />
       </main>
     );
   }

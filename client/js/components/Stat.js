@@ -78,12 +78,19 @@ class Stat extends Component {
 
   render() {
     const dates = this.state.reportedSymptomsByDate.map((s) => moment(s.date).toDate());
+    console.log(this.props);
     return dates && dates.length
-    ? (<Chart
-      symptomCounts={ this.state.reportedSymptomsByDate.map((s) => s.value) }
-      layerValues={ this.state.tilesInfoByDate.map((t) => t.value) }
-      dates={ dates }
-    />)
+    ? (<div>
+      <Chart
+        symptomCounts={ this.state.reportedSymptomsByDate.map((s) => s.value) }
+        layerValues={ this.state.tilesInfoByDate.map((t) => t.value) }
+        dates={ dates }
+      />
+      <p>
+      Correlation between data from layer <b>{this.props.layer}</b> and reported symptoms between
+      <b> {this.props.fromDate}</b> and <b>{this.props.toDate}</b>: <b>{this.state.correlation}</b>.
+      </p>
+    </div>)
     : (<span></span>);
   }
 }
