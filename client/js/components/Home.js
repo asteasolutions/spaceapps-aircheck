@@ -13,6 +13,7 @@ import Stat from './Stat';
 import { requestTileCoordinates } from '../actions/WorldMapActions';
 import { PanelGroup, Panel, ButtonGroup, Button, Input } from 'react-bootstrap';
 import { generateDummyData } from '../data/dummyDataGenerator';
+import Chart from './Chart';
 
 class Home extends Component {
   constructor(props) {
@@ -43,6 +44,15 @@ class Home extends Component {
 
   render() {
     const { reportedSymptoms } = this.props.viewer;
+
+    const now = new Date();
+    const dates = [
+      new Date(now.setDate(17)),
+      new Date(now.setDate(18)),
+      new Date(now.setDate(19)),
+      new Date(now.setDate(20)),
+      new Date(now.setDate(21)),
+    ];
 
     return (
       <main className='container-fluid'>
@@ -75,12 +85,12 @@ class Home extends Component {
           <ReportedSymptomsList reportedSymptoms={reportedSymptoms} />
         </div>
         <Stat
-          layer='MODIS_Terra_Aerosol'
+          layer='AIRS_CO_Total_Column_Day'
           tileCoords={[{ x: 13, y: 32 }, { x: 13, y: 33 }]}
           bbox={[[20, 40], [25, 45]]}
           zoomLevel={6}
-          fromDate='2016-04-17'
-          toDate='2016-04-19'
+          fromDate='2016-05-01'
+          toDate='2016-05-10'
           viewer={this.props.viewer}
         />
       </main>

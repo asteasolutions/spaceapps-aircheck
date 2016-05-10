@@ -1,8 +1,11 @@
 import _ from 'lodash';
+import moment from 'moment';
 import React, { Component, PropTypes } from 'react';
 import Relay from 'react-relay';
 import createComponent from '../utils/createComponent';
 import stat from 'simple-statistics';
+import Chart from './Chart';
+
 
 class Stat extends Component {
   constructor(props) {
@@ -74,11 +77,14 @@ class Stat extends Component {
   }
 
   render() {
-    console.log(this.state.reportedSymptomsByDate);
-    console.log(this.state.tilesInfoByDate);
-    console.log(this.state.correlation);
-
-    return (<span></span>);
+    const dates = this.state.reportedSymptomsByDate.map((s) => moment(s.date).toDate());
+    return dates && dates.length
+    ? (<Chart
+      symptomCounts={ this.state.reportedSymptomsByDate.map((s) => s.value) }
+      layerValues={ this.state.tilesInfoByDate.map((t) => t.value) }
+      dates={ dates }
+    />)
+    : (<span></span>);
   }
 }
 
