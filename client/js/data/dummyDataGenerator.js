@@ -26,7 +26,7 @@ function generateSymptomData(bounds = defaultBounds) {
     grade,
     lat,
     lon,
-    date: date.format('YYYY-MM-d'),
+    date: date.format('YYYY-MM-DD'),
   };
 }
 

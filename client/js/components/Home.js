@@ -85,21 +85,13 @@ class Home extends Component {
           <ReportedSymptomsList reportedSymptoms={reportedSymptoms} />
         </div>
         <Stat
-          layer='MODIS_Terra_Aerosol'
+          layer='AIRS_CO_Total_Column_Day'
           tileCoords={[{ x: 13, y: 32 }, { x: 13, y: 33 }]}
           bbox={[[20, 40], [25, 45]]}
           zoomLevel={6}
-          fromDate='2016-04-17'
-          toDate='2016-04-19'
+          fromDate='2016-05-01'
+          toDate='2016-05-10'
           viewer={this.props.viewer}
-        />
-
-        <br />
-        <Chart
-          layerName='Aerosols'
-          layerValues={[0.3, 0.5, 0.7, 0.9, 0.2]}
-          dates={ dates }
-          symptomCounts={ [10, 20, 100, 200, 20] }
         />
       </main>
     );

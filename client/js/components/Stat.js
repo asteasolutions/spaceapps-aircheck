@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 import React, { Component, PropTypes } from 'react';
 import Relay from 'react-relay';
 import createComponent from '../utils/createComponent';
@@ -76,39 +77,14 @@ class Stat extends Component {
   }
 
   render() {
-    console.log(this.state.reportedSymptomsByDate);
-    console.log(this.state.tilesInfoByDate);
-    console.log(this.state.correlation);
-
-    let reportedSymptomsByDate = [];
-    let tilesInfoByDate = [];
-    const { reportedSymptoms, tilesInfo } = this.props.viewer;
-    if (reportedSymptoms && tilesInfo) {
-      const symptomsMap = _.groupBy(reportedSymptoms, 'date');
-      const tilesMap = _.groupBy(tilesInfo, 'date');
-      Object.keys(symptomsMap).forEach((date) => {
-        reportedSymptomsByDate.push({
-          date,
-          value: symptomsMap[date].length,
-        });
-        tilesInfoByDate.push({
-          date,
-          value: _.mean(tilesMap[date].map((t) => t.sampleValue)),
-        });
-      });
-
-      reportedSymptomsByDate = _.sortBy(reportedSymptomsByDate, 'date');
-      tilesInfoByDate = _.sortBy(tilesInfoByDate, 'date');
-    }
-
-    return (<span></span>);
-    // return (
-    //   <Chart
-    //     symptomsCount={ reportedSymptomsByDate.map((s) => s.value) }
-    //     layerValues={ tilesInfoByDate.map((t) => t.value) }
-    //     dates={ tilesInfoByDate.map((t) => t.date) }
-    //   />
-    // );
+    const dates = this.state.reportedSymptomsByDate.map((s) => moment(s.date).toDate());
+    return dates && dates.length
+    ? (<Chart
+      symptomCounts={ this.state.reportedSymptomsByDate.map((s) => s.value) }
+      layerValues={ this.state.tilesInfoByDate.map((t) => t.value) }
+      dates={ dates }
+    />)
+    : (<span></span>);
   }
 }
 
