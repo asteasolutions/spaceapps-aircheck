@@ -1,0 +1,13 @@
+server:
+    build: ./server
+    ports: 
+        -   "1234:1234"
+    links:
+        -   "mongo"
+
+    restart: on-failure
+
+mongo:
+    image: mongo:3.2
+    volumes:
+        - /data/db
