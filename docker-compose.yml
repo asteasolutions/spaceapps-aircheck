@@ -1,5 +1,8 @@
 server:
-    build: ./server
+    build: .
+    dockerfile: "server.Dockerfile"
+    environment:
+        MONGO_CONN: 'mongodb://mongo:27017/aircheck'
     ports: 
         -   "1234:1234"
     links:

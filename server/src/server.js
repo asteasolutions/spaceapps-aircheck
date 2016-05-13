@@ -4,8 +4,8 @@ import graphqlHTTP from 'express-graphql';
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import config from './config/main.js';
 
-const config = require('./config/main.json');
 const port = global.process.env.PORT || 1234;
 const server = global.server = express();
 
